@@ -1,0 +1,21 @@
+{
+   "name": "@overdog/fn",
+   "version": "1.0.0-beta.0",
+   "description": "Overdog FN is a library of Javascript functions for Craft CMS",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "keywords": [
+      "Craft",
+      "CMS",
+      "Filters",
+      "Accordions",
+      "Autocomplete",
+      "Dropdown",
+      "Overdog",
+      "3ejoueur"
+   ],
+   "author": "Ian Reid Langevin",
+   "license": "ISC"
+}
