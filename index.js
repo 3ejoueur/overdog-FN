@@ -17,7 +17,7 @@ export { FormValidation } from "./forms/validation.js"
 export { FormValidationWithApi } from "./forms/external-api.js"
 
 // lazyload
-export { lazyload as navigLazyload } from "./lazyload/lazyload.js"
+export { lazyload as fnLazyload } from "./lazyload/lazyload.js"
 
 // Pagination
 export { LoadMore } from "./pagination/load-more.js"
