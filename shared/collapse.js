@@ -35,7 +35,7 @@ function hideContent (accordion, heading, targetContent) {
   Reset function - Used by the alternate mode
 */
 function collapseAll (item) {
-   const OPEN_ACCORDIONS = item.querySelectorAll(`[${this.labels.openState}]`)
+   const OPEN_ACCORDIONS = item.querySelectorAll(`[${labels.openState}]`)
    if (OPEN_ACCORDIONS) {
       OPEN_ACCORDIONS.forEach(accordion => {
          const HEADING = accordion.querySelector("button")

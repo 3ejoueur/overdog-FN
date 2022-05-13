@@ -40,10 +40,10 @@ export class MenuTwoPanel {
    --------------------------------------------------------------------------
    */
    _openParent (current) {
-      const CURRENT_LINK_SUBMENU = current.closest(`[${this.labels.menuSubmenu}]`)
+      const CURRENT_LINK_SUBMENU = current.closest(`[${labels.menuSubmenu}]`)
       if (CURRENT_LINK_SUBMENU) {
-         const PARENT_LABEL = document.querySelector(`[${this.labels.target}="${CURRENT_LINK_SUBMENU.id}"]`)
-         const PARENT_MENU_ITEM = CURRENT_LINK_SUBMENU.closest(`[${this.labels.menuItem}]`)
+         const PARENT_LABEL = document.querySelector(`[${labels.target}="${CURRENT_LINK_SUBMENU.id}"]`)
+         const PARENT_MENU_ITEM = CURRENT_LINK_SUBMENU.closest(`[${labels.menuItem}]`)
          showContent(PARENT_MENU_ITEM, PARENT_LABEL, CURRENT_LINK_SUBMENU)
       }
    }

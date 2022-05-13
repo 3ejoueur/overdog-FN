@@ -74,7 +74,7 @@ export class LoadMore {
             event.preventDefault()
 
             const CURRENT_PAGE = this.pagesWrapper.lastElementChild
-            const NEXT_PAGE = parseInt(CURRENT_PAGE.dataset.navigLoadMorePage) + 1
+            const NEXT_PAGE = parseInt(CURRENT_PAGE.getAttribute("data-fn-load-more-page")) + 1
             const DIV_TO_FETCH = `[${labels.loadMorePage}='${NEXT_PAGE}']`
             const HREF = this._createUrl(NEXT_PAGE)
 
