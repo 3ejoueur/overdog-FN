@@ -13,6 +13,7 @@ export class MenuFourPanel {
    --------------------------------------------------------------------------
    @method constructor
    @param {string} elem - CSS selector - Wrapper of your menu
+   @param {string} options.currentLinkSelector
    --------------------------------------------------------------------------
    */
 

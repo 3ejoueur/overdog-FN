@@ -97,7 +97,6 @@ export class Autocomplete {
          if (!RESPONSE) return
          const FIELDS_TO_SEARCH = Object.keys(RESPONSE.data[0])
          const RESULTS = RESPONSE.data.filter(obj => {
-            // search in the this.fieldsToSearch option - keys must match your json endpoint
             let matchedValue
             FIELDS_TO_SEARCH.forEach(key => { matchedValue = obj[key].match(INPUT_VAL_REGEX) })
             return matchedValue

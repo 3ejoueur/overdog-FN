@@ -16,6 +16,8 @@ export class MenuTwoPanel {
    @method constructor
    @param {string} elem - CSS selector
    @param {string} options.collapseBreakpoint - Breakpoint to collapse in accordions
+   @param {string} options.currentLinkSelector
+   @param {string} options.hideCurrentOnMobile
    --------------------------------------------------------------------------
    */
 
