@@ -22,6 +22,7 @@ export const labels = {
    // tabs
    tabs: "data-fn-tabs",
    tabsHeading: "data-fn-tabs-heading",
+   tabsContent: "data-fn-tabs-content",
    tabsClose: "data-fn-tabs-content",
    // load more
    loadMorePage: "data-fn-load-more-page",
