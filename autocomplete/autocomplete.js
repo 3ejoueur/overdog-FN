@@ -23,7 +23,7 @@ export class Autocomplete {
          textLength: 2,
          endpoints: null,
          cssClasses: {
-            link: "block p-1 hover:bg-gray-[#e0e2e7] focus:bg-[#d7e4f4]",
+            link: "block p-4 hover:bg-gray-[#e0e2e7] focus:bg-[#d7e4f4]",
             highlight: "font-bold text-[#084b83]"
          }
       }
