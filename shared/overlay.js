@@ -6,7 +6,7 @@
 */
 
 import { labels } from "../labels.js"
-export { showOverlay, hideOverlay }
+export { showOverlay, hideAllOverlay }
 
 /**
    --------------------------------------------------------------------------
@@ -21,16 +21,18 @@ function showOverlay (overlay) {
 }
 
 /**
-   --------------------------------------------------------------------------
-    @method hideOverlay
-    @note transitionend check for activeClass to only run in one way
-   --------------------------------------------------------------------------
-   */
-function hideOverlay (overlay) {
-   if (overlay) {
-      overlay.removeAttribute(labels.openState)
-      overlay.addEventListener("transitionend", () => {
-         if (!overlay.hasAttribute(labels.openState)) overlay.style.display = "none"
+--------------------------------------------------------------------------
+   @method _hideAllOverlay
+--------------------------------------------------------------------------
+*/
+function hideAllOverlay () {
+   const OVERLAYS = document.querySelectorAll(`[${labels.overlay}]`)
+   if (OVERLAYS) {
+      OVERLAYS.forEach(overlay => {
+         overlay.removeAttribute(labels.openState)
+         overlay.addEventListener("transitionend", () => {
+            if (!overlay.hasAttribute(labels.openState)) overlay.style.display = "none"
+         })
       })
    }
 }

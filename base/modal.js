@@ -6,7 +6,7 @@
 --------------------------------------------------------------------------
 */
 
-import { showOverlay, hideOverlay } from "../shared/overlay"
+import { showOverlay, hideAllOverlay } from "../shared/overlay"
 import { labels } from "../labels"
 import { trapFocus } from "../shared/trap-focus"
 
@@ -61,7 +61,7 @@ export class Modal {
          OPEN_BUTTON.focus() // reset focus to the modal open button
       }
       if (OPEN_MODAL) OPEN_MODAL.removeAttribute(labels.openState)
-      if (this.overlay) hideOverlay(this.overlay)
+      if (this.overlay) hideAllOverlay()
    }
 
    /**

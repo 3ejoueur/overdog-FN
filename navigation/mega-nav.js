@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------
 */
 
-import { showOverlay, hideOverlay } from "../shared/overlay"
+import { showOverlay, hideAllOverlay } from "../shared/overlay"
 import { labels } from "../labels"
 
 export class MegaNav {
@@ -43,6 +43,7 @@ export class MegaNav {
    --------------------------------------------------------------------------
    */
    _openNav (currentButtonValue, relatedNav, currentButton) {
+      if (this.overlay) showOverlay(this.overlay)
       document.body.setAttribute(labels.navOpen, currentButtonValue)
       if (this.lockBodyScroll) document.body.style.overflowY = "hidden"
       if (!relatedNav.hasAttribute("style")) relatedNav.setAttribute("style", this.backTransition) // set the back transition on click - avoid a FOUT effect
@@ -57,7 +58,7 @@ export class MegaNav {
    */
    _closeAllNavs () {
       document.body.removeAttribute(labels.navOpen)
-      if (this.overlay) hideOverlay(this.overlay)
+      hideAllOverlay()
       if (this.lockBodyScroll) document.body.style.overflowY = ""
       this._setAllButtonsAriaFalse()
    }
@@ -99,15 +100,13 @@ export class MegaNav {
                const CURRENT_BUTTON_VALUE = button.getAttribute(labels.navButton)
                // manage state of all panels and buttons
                if (!document.body.hasAttribute(labels.navOpen)) {
-                  if (this.overlay) showOverlay(this.overlay)
                   this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button)
                   return
                }
                if (document.body.getAttribute(labels.navOpen) === CURRENT_BUTTON_VALUE) {
                   this._closeAllNavs()
                } else { // manage the toggle between 2 different panels - keep the overlay
-                  document.body.removeAttribute(labels.navOpen)
-                  if (this.lockBodyScroll) document.body.style.overflowY = ""
+                  this._closeAllNavs()
                   setTimeout(() => { this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button) }, this.delayBetweenOpenings)
                }
             })

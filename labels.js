@@ -5,6 +5,7 @@ export const labels = {
    loadingState: "data-fn-is-loading",
    // shared
    target: "data-fn-target",
+   overlay: "data-fn-overlay",
    // menu
    menuItem: "data-fn-menu-item",
    menuList: "data-fn-menu-list",
