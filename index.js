@@ -23,7 +23,7 @@ export { lazyload as fnLazyload } from "./lazyload/lazyload.js"
 export { LoadMore } from "./pagination/load-more.js"
 
 // Nav
-export { MegaNav } from "./navigation/mega-nav.js"
+export { SlidingNav } from "./navigation/sliding-nav.js"
 export { Navbar } from "./navigation/navbar.js"
 
 // Menu

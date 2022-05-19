@@ -10,7 +10,7 @@
 import { showOverlay, hideAllOverlay } from "../shared/overlay"
 import { labels } from "../labels"
 
-export class MegaNav {
+export class SlidingNav {
    /**
    --------------------------------------------------------------------------
       elem
