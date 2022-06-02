@@ -45,7 +45,7 @@ export class SlidingNav {
    _openNav (currentButtonValue, relatedNav, currentButton) {
       if (this.overlay) showOverlay(this.overlay)
       document.body.setAttribute(labels.navOpen, currentButtonValue)
-      if (this.lockBodyScroll) document.body.style.overflowY = "hidden"
+      if (this.lockBodyScroll) document.body.style.overflow = "hidden"
       if (!relatedNav.hasAttribute("style")) relatedNav.setAttribute("style", this.backTransition) // set the back transition on click - avoid a FOUT effect
       this._setAllButtonsAriaFalse()
       this._setOpenButtonAriaTrue(currentButton)
@@ -59,7 +59,7 @@ export class SlidingNav {
    _closeAllNavs () {
       document.body.removeAttribute(labels.navOpen)
       hideAllOverlay()
-      if (this.lockBodyScroll) document.body.style.overflowY = ""
+      if (this.lockBodyScroll) document.body.style.overflow = ""
       this._setAllButtonsAriaFalse()
    }
 
