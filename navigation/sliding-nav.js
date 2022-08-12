@@ -18,7 +18,6 @@ export class SlidingNav {
       options
       @param {integer} delayBetweenOpenings - Delay between mega nav in milliseconds
       @param {string} backTransition - Style applied for back transition to avoid FOUC
-      @param {boolean} lockBodyScroll - Remove scroll on body when nav is open
       @param {string} overlaySelector - CSS Selector
       --------------------------------------------------------------------------
    */
@@ -27,7 +26,6 @@ export class SlidingNav {
       const DEFAULT_OPTIONS = {
          delayBetweenOpenings: 450,
          backTransition: "transition:transform 0.25s;transition-timing-function:cubic-bezier(0.42, 0, 1, 1);",
-         lockBodyScroll: true,
          overlaySelector: null
       }
 
@@ -45,7 +43,6 @@ export class SlidingNav {
    _openNav (currentButtonValue, relatedNav, currentButton) {
       if (this.overlay) showOverlay(this.overlay)
       document.body.setAttribute(labels.navOpen, currentButtonValue)
-      if (this.lockBodyScroll) document.body.style.overflow = "hidden"
       if (!relatedNav.hasAttribute("style")) relatedNav.setAttribute("style", this.backTransition) // set the back transition on click - avoid a FOUT effect
       this._setAllButtonsAriaFalse()
       this._setOpenButtonAriaTrue(currentButton)
@@ -59,7 +56,6 @@ export class SlidingNav {
    _closeAllNavs () {
       document.body.removeAttribute(labels.navOpen)
       hideAllOverlay()
-      if (this.lockBodyScroll) document.body.style.overflow = ""
       this._setAllButtonsAriaFalse()
    }
 
