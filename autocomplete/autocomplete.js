@@ -15,17 +15,17 @@ export class Autocomplete {
    @param {integer} options.textLength - Integer - length before searching in the json
    @param {array} options.endpoints - Array of objects
    @param {array} options.fieldsToSearch - Array of your Craft CMS fields to search in JSON endpoint
-   @param {object} options.cssClasses - Object with keys link (string) and highligth(string)
+   @param {string} options.highlightKey - Key in your data that is highlight
+   @param {string} options.highlightClasses - CSS classes for the highlight span tag
    --------------------------------------------------------------------------
   */
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
          textLength: 2,
          endpoints: null,
-         cssClasses: {
-            link: "block p-4 hover:bg-gray-[#e0e2e7] focus:bg-[#d7e4f4]",
-            highlight: "font-bold text-[#084b83]"
-         }
+         fieldsToSearch: ["title", "url", "titleToAscii"], // important if you not want to search in all fields returned in your endpoint
+         highlightKey: "title", // key in your data that is highlight
+         highlightClasses: "font-bold text-[#084b83]"
       }
 
       Object.assign(this, DEFAULT_OPTIONS, options)
@@ -38,6 +38,7 @@ export class Autocomplete {
          this.submitButton = this.searchForm.querySelector(`[${labels.autocompleteSubmit}]`)
          this.resultsDiv = this.searchForm.querySelector(`[${labels.autocompleteResults}]`)
          this.resultsDivInner = this.searchForm.querySelector(`[${labels.autocompleteResultsInner}]`)
+         this.suggestionTemplate = document.querySelector("[data-fn-autocomplete-template]")
          this.jsonUrl = window.location.origin + this.endpoints.find(element => element.langCode === document.documentElement.lang).slug
       }
    }
@@ -67,63 +68,62 @@ export class Autocomplete {
    @desc Default event hub for init method
    --------------------------------------------------------------------------
    */
+
    handleEvent (event) {
       switch (event.type) {
       case "input": {
          const INPUT_VAL = event.target.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-         /**
-            Set the length that you want before autocomplete is activated
-         */
+
+         // Set the length that you want before autocomplete is activated
          if (this.inputField.value.length < this.textLength) {
             this._hideResultsDiv()
             this.submitButton.setAttribute("disabled", true)
             return
          }
          this.submitButton.removeAttribute("disabled")
-         /**
-            Find for the json in the localStorage Cache
-         */
+
+         // Find for the json in the localStorage Cache
          const JSON_IN_LOCAL_STORAGE = sessionStorage.getItem(this.jsonUrl)
          if (!JSON_IN_LOCAL_STORAGE) {
             console.log("Sorry, no autocomplete results in your cache. Fallback to a classic search.")
             return
          }
-         /**
-            Create a JS object with Parse and find a match for the input in the response
-         */
+
+         // Create a JS object with Parse
          const RESPONSE = JSON.parse(JSON_IN_LOCAL_STORAGE)
-         const INPUT_VAL_REGEX = new RegExp(INPUT_VAL, "i")
-         // check if a match in the json
          if (!RESPONSE) return
-         const FIELDS_TO_SEARCH = Object.keys(RESPONSE.data[0])
+
+         const INPUT_VAL_REGEX = new RegExp(INPUT_VAL, "i")
+
+         // Search in the this.fieldsToSearch option - keys must match your json endpoint
          const RESULTS = RESPONSE.data.filter(obj => {
             let matchedValue
-            FIELDS_TO_SEARCH.forEach(key => { matchedValue = obj[key].match(INPUT_VAL_REGEX) })
+            this.fieldsToSearch.forEach(key => { matchedValue = obj[key].match(INPUT_VAL_REGEX) })
             return matchedValue
          })
-         // if no match - empty the results html and end function
+
+         // If no match - empty the results html and end function
          if (RESULTS.length === 0) {
             this._hideResultsDiv()
             return
          }
 
-         this.resultsDivInner.innerHTML = RESULTS.map(suggestion => {
-            this._showResultsDiv()
-            // only useful for highlight on input value
-            const RETURNED_TITLE = suggestion.title.replace(INPUT_VAL_REGEX, `<span class="${this.cssClasses.highlight}">${INPUT_VAL}</span>`)
-            return `<a class="${this.cssClasses.link}" href="${suggestion.url}?r=${INPUT_VAL}">${RETURNED_TITLE}</a>`
-         }).join("")
+         // Create the suggestion content
+         const SUGGESTION_HTML = this._createSuggestionNode(RESULTS, INPUT_VAL_REGEX, INPUT_VAL)
+         this.resultsDivInner.innerHTML = SUGGESTION_HTML
+
+         this._showResultsDiv()
       }
          break
 
-      // close results div on click outside
+      // Close results div on click outside
       case "click":
          if (!(this.resultsDiv && this.inputField).contains(event.target)) {
             this.resultsDiv.style.display = "none"
          }
          break
 
-      // results keyboard nav with arrow - trap focus
+      // Results keyboard nav with arrow - trap focus
       case "keydown": {
          const FOCUSABLE_INPUTS = this.inputWrapper.querySelectorAll("input, a")
          const FOCUSABLE_INPUTS_ARRAY = [...FOCUSABLE_INPUTS]
@@ -144,6 +144,35 @@ export class Autocomplete {
       }
          break
       }
+   }
+
+   /**
+   --------------------------------------------------------------------------
+   @method _createSuggestionNode
+   --------------------------------------------------------------------------
+   */
+   _createSuggestionNode (results, inputValueRegex, inputValue) {
+      const HTML = results.map(item => {
+         const TEMPLATE_CLONE = this.suggestionTemplate.cloneNode(true)
+         let SUGGESTION_STRING = TEMPLATE_CLONE.innerHTML.toString()
+         const PLACEHOLDERS = SUGGESTION_STRING.match(/\$(.*?)\$/g)
+
+         if (this.highlightKey) item[this.highlightKey].replace(inputValueRegex, `<span class="${this.highlightClasses}">${inputValue}</span>`)
+
+         PLACEHOLDERS.forEach(placeholder => {
+            // placeholder - $title$
+            const STRIPPED_KEY = placeholder.substring(1, placeholder.length - 1)
+            // STRIPPED_KEY = title
+            if (item[STRIPPED_KEY]) {
+               const NEW_VALUE = STRIPPED_KEY === this.highlightKey ? item[this.highlightKey].replace(inputValueRegex, `<span class="${this.highlightClasses}">${inputValue}</span>`) : item[STRIPPED_KEY]
+               SUGGESTION_STRING = SUGGESTION_STRING.replace(placeholder, NEW_VALUE)
+            }
+         })
+
+         return SUGGESTION_STRING
+      }).join("")
+
+      return HTML
    }
 
    /**
@@ -180,7 +209,7 @@ export class Autocomplete {
             document.addEventListener("keydown", this) // event handled by handleEvent()
             document.addEventListener("click", this) // event handled by handleEvent()
          } else {
-            console.error("Hey, an element with data-fn-autocomplete is missing in your HTML structure, take a look at the example template.")
+            console.error("An element with data-fn-autocomplete is missing in your HTML structure, take a look at the example template.")
          }
       }
    }
