@@ -15,6 +15,7 @@ export class Autocomplete {
    @param {integer} options.textLength - Integer - length before searching in the json
    @param {array} options.endpoints - Array of objects
    @param {array} options.fieldsToSearch - Array of your Craft CMS fields to search in JSON endpoint
+   ( important if you do not want to search in all fields returned in your endpoint )
    @param {string} options.highlightKey - Key in your data that is highlight
    @param {string} options.highlightClasses - CSS classes for the highlight span tag
    --------------------------------------------------------------------------
@@ -23,8 +24,8 @@ export class Autocomplete {
       const DEFAULT_OPTIONS = {
          textLength: 2,
          endpoints: null,
-         fieldsToSearch: ["title", "url", "titleToAscii"], // important if you not want to search in all fields returned in your endpoint
-         highlightKey: "title", // key in your data that is highlight
+         fieldsToSearch: ["title", "url", "titleToAscii"],
+         highlightKey: "title",
          highlightClasses: "font-bold text-[#084b83]"
       }
 
