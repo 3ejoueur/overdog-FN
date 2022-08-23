@@ -1,7 +1,7 @@
 /**
 --------------------------------------------------------------------------
   @class Autocomplete
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 
@@ -16,7 +16,7 @@ export class Autocomplete {
    @param {array} options.endpoints - Array of objects
    @param {array} options.fieldsToSearch - Array of your Craft CMS fields to search in JSON endpoint
    ( important if you do not want to search in all fields returned in your endpoint )
-   @param {string} options.highlightKey - Key in your data that is highlight
+   @param {string} options.fieldToHighlight - Key in your data that is highlight
    @param {string} options.highlightClasses - CSS classes for the highlight span tag
    --------------------------------------------------------------------------
   */
@@ -25,7 +25,7 @@ export class Autocomplete {
          textLength: 2,
          endpoints: null,
          fieldsToSearch: ["title", "url", "titleToAscii"],
-         highlightKey: "title",
+         fieldToHighlight: "title",
          highlightClasses: "font-bold text-[#084b83]"
       }
 
@@ -39,7 +39,7 @@ export class Autocomplete {
          this.submitButton = this.searchForm.querySelector(`[${labels.autocompleteSubmit}]`)
          this.resultsDiv = this.searchForm.querySelector(`[${labels.autocompleteResults}]`)
          this.resultsDivInner = this.searchForm.querySelector(`[${labels.autocompleteResultsInner}]`)
-         this.suggestionTemplate = document.querySelector("[data-fn-autocomplete-template]")
+         this.suggestionTemplate = document.querySelector(`[${labels.autocompleteTemplate}]`)
          this.jsonUrl = window.location.origin + this.endpoints.find(element => element.langCode === document.documentElement.lang).slug
       }
    }
@@ -86,20 +86,20 @@ export class Autocomplete {
          // Find for the json in the localStorage Cache
          const JSON_IN_LOCAL_STORAGE = sessionStorage.getItem(this.jsonUrl)
          if (!JSON_IN_LOCAL_STORAGE) {
-            console.log("Sorry, no autocomplete results in your cache. Fallback to a classic search.")
+            console.log("No autocomplete results in your local storage cache. Fallback to a classic search.")
             return
          }
 
          // Create a JS object with Parse
          const RESPONSE = JSON.parse(JSON_IN_LOCAL_STORAGE)
          if (!RESPONSE) return
-
          const INPUT_VAL_REGEX = new RegExp(INPUT_VAL, "i")
-
          // Search in the this.fieldsToSearch option - keys must match your json endpoint
          const RESULTS = RESPONSE.data.filter(obj => {
-            let matchedValue
-            this.fieldsToSearch.forEach(key => { matchedValue = obj[key].match(INPUT_VAL_REGEX) })
+            let matchedValue = ""
+            this.fieldsToSearch.forEach(key => {
+               if (obj[key]) matchedValue = obj[key].match(INPUT_VAL_REGEX)
+            })
             return matchedValue
          })
 
@@ -112,7 +112,6 @@ export class Autocomplete {
          // Create the suggestion content
          const SUGGESTION_HTML = this._createSuggestionNode(RESULTS, INPUT_VAL_REGEX, INPUT_VAL)
          this.resultsDivInner.innerHTML = SUGGESTION_HTML
-
          this._showResultsDiv()
       }
          break
@@ -158,14 +157,14 @@ export class Autocomplete {
          let SUGGESTION_STRING = TEMPLATE_CLONE.innerHTML.toString()
          const PLACEHOLDERS = SUGGESTION_STRING.match(/\$(.*?)\$/g)
 
-         if (this.highlightKey) item[this.highlightKey].replace(inputValueRegex, `<span class="${this.highlightClasses}">${inputValue}</span>`)
+         if (this.fieldToHighlight) item[this.fieldToHighlight].replace(inputValueRegex, `<span class="${this.highlightClasses}">${inputValue}</span>`)
 
          PLACEHOLDERS.forEach(placeholder => {
             // placeholder - $title$
             const STRIPPED_KEY = placeholder.substring(1, placeholder.length - 1)
             // STRIPPED_KEY = title
             if (item[STRIPPED_KEY]) {
-               const NEW_VALUE = STRIPPED_KEY === this.highlightKey ? item[this.highlightKey].replace(inputValueRegex, `<span class="${this.highlightClasses}">${inputValue}</span>`) : item[STRIPPED_KEY]
+               const NEW_VALUE = STRIPPED_KEY === this.fieldToHighlight ? item[this.fieldToHighlight].replace(inputValueRegex, `<span class="${this.highlightClasses}">${inputValue}</span>`) : item[STRIPPED_KEY]
                SUGGESTION_STRING = SUGGESTION_STRING.replace(placeholder, NEW_VALUE)
             }
          })
@@ -203,15 +202,32 @@ export class Autocomplete {
    */
    init () {
       if (this.searchForm) {
-         if (this.inputField && this.resultsDiv && this.submitButton) {
-            this.inputField.addEventListener("focusin", this._initialCacheJson.bind(this))
-            this.inputField.addEventListener("input", this) // event handled by handleEvent()
-            // focus and click outside
-            document.addEventListener("keydown", this) // event handled by handleEvent()
-            document.addEventListener("click", this) // event handled by handleEvent()
-         } else {
-            console.error("An element with data-fn-autocomplete is missing in your HTML structure, take a look at the example template.")
+         // console message management
+         if (!this.inputField) {
+            console.warn(`Overdog Autocomplete - A input with the ${labels.autocompleteInput} attribute is missing in your template`)
+            return
          }
+         if (!this.resultsDiv) {
+            console.warn(`Overdog Autocomplete - A div with the ${labels.autocompleteResults} attribute is missing in your template`)
+            return
+         }
+         if (!this.submitButton) {
+            console.warn(`Overdog Autocomplete - A button with the ${labels.autocompleteSubmit} attribute is missing in your template`)
+            return
+         }
+         if (!this.resultsDivInner) {
+            console.warn(`Overdog Autocomplete - A div with the ${labels.autocompleteResultsInner} attribute is missing in your template`)
+            return
+         }
+         if (!this.suggestionTemplate) {
+            console.warn(`Overdog Autocomplete - A template tag with the ${labels.suggestionTemplate} attribute is missing in your template`)
+            return
+         }
+         // events listeners
+         this.inputField.addEventListener("focusin", this._initialCacheJson.bind(this))
+         this.inputField.addEventListener("input", this)
+         document.addEventListener("keydown", this)
+         document.addEventListener("click", this)
       }
    }
 }
