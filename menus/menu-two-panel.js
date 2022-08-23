@@ -2,11 +2,10 @@
 --------------------------------------------------------------------------
   @class Two-Panel menu
   @classdesc A two panel menu that collapse in accordions on mobile device
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 
-// import collapse functions - adjust the import path to fit your project structure
 import { showContent, hideContent, collapseAll } from "../shared/collapse.js"
 import { labels } from "../labels.js"
 

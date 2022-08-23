@@ -3,7 +3,7 @@
 --------------------------------------------------------------------------
   @class MegaNav
   @classdesc Toggle between multiple nav buttons and open class on body
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

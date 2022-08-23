@@ -2,7 +2,7 @@
 --------------------------------------------------------------------------
   @class NavbarSticky
   @classdesc A sticky navbar using requestAnimationFrame for better performance
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

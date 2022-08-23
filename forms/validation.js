@@ -1,10 +1,8 @@
 /**
 --------------------------------------------------------------------------
-  Form Validation
-  Author: Ian Reid Langevin @3ejoueur
-  Year: 2021
-  @Class - Autocomplete instance
-  @desc - Lightweigt data-attribute based Form validation
+   @class FormValidation
+   @author Ian Reid Langevin
+   @classdesc - Lightweigt data-attribute based Form validation
 --------------------------------------------------------------------------
 */
 

@@ -1,8 +1,8 @@
 /**
 --------------------------------------------------------------------------
-@class FormValidationGetForm extends FormValidation class
-@description This allow to connect your form to an external API like Getform account with the fetch API
-@author Ian Reid Langevin @3ejoueur
+   @class FormValidationGetForm extends FormValidation class
+   @description This allow to connect your form to an external API like Getform account with the fetch API
+   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

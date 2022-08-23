@@ -2,7 +2,7 @@
 --------------------------------------------------------------------------
   @class Tabs
   @classdesc Tabs component with keyboard arrow navigation
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

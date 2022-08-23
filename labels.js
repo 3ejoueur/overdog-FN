@@ -6,6 +6,7 @@ export const labels = {
    // shared
    target: "data-fn-target",
    overlay: "data-fn-overlay",
+   hideBodyOverflow: "data-fn-hide-body-overflow",
    // menu
    menuItem: "data-fn-menu-item",
    menuList: "data-fn-menu-list",
@@ -33,6 +34,7 @@ export const labels = {
    autocompleteSubmit: "data-fn-autocomplete-submit",
    autocompleteResults: "data-fn-autocomplete-results",
    autocompleteResultsInner: "data-fn-autocomplete-results-inner",
+   autocompleteTemplate: "data-fn-autocomplete-template",
    // nav
    navPanel: "data-fn-nav-panel",
    navButton: "data-fn-nav-button",

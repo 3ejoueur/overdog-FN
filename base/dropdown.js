@@ -2,7 +2,7 @@
 --------------------------------------------------------------------------
   @class Dropdown
   @classdesc Dropdown for form filters (or anything else)
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

@@ -2,7 +2,7 @@
 --------------------------------------------------------------------------
   @class Multiple filters for Craft CMS
   @classdesc In most case, you just need to edit the path for the imported functions
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

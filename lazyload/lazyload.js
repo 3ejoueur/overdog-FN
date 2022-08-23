@@ -4,7 +4,7 @@
 --------------------------------------------------------------------------
 
   Based on a snippet from frontmend.com and adapted with the web.dev recommandations
-  Opinionated by Ian Reid Langevin @3ejoueur - 2020
+  Opinionated by Ian Reid Langevin - 2020
 
 */
 

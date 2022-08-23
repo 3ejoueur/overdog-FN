@@ -1,7 +1,7 @@
 /**
 --------------------------------------------------------------------------
   @async Fetch function for multiple or single filter
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

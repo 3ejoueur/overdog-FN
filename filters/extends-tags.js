@@ -1,8 +1,8 @@
 /**
 --------------------------------------------------------------------------
-@class MultipleFiltersWithTags for Craft CMS
-@classdesc MultipleFiltersWithTags extends MultipleFilters class to add tags for filters
-@author Ian Reid Langevin @3ejoueur
+   @class MultipleFiltersWithTags for Craft CMS
+   @classdesc MultipleFiltersWithTags extends MultipleFilters class to add tags for filters
+   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 
