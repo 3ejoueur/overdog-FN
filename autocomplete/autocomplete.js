@@ -39,7 +39,7 @@ export class Autocomplete {
          this.submitButton = this.searchForm.querySelector(`[${labels.autocompleteSubmit}]`)
          this.resultsDiv = this.searchForm.querySelector(`[${labels.autocompleteResults}]`)
          this.resultsDivInner = this.searchForm.querySelector(`[${labels.autocompleteResultsInner}]`)
-         this.suggestionTemplate = document.querySelector(`[${labels.autocompleteTemplate}]`)
+         this.suggestionTemplate = this.searchForm.querySelector(`[${labels.autocompleteTemplate}]`)
          this.jsonUrl = window.location.origin + this.endpoints.find(element => element.langCode === document.documentElement.lang).slug
       }
    }
@@ -153,6 +153,7 @@ export class Autocomplete {
    */
    _createSuggestionNode (results, inputValueRegex, inputValue) {
       const HTML = results.map(item => {
+         console.log(this.suggestionTemplate)
          const TEMPLATE_CLONE = this.suggestionTemplate.cloneNode(true)
          let SUGGESTION_STRING = TEMPLATE_CLONE.innerHTML.toString()
          const PLACEHOLDERS = SUGGESTION_STRING.match(/\$(.*?)\$/g)
@@ -220,7 +221,7 @@ export class Autocomplete {
             return
          }
          if (!this.suggestionTemplate) {
-            console.warn(`Overdog Autocomplete - A template tag with the ${labels.suggestionTemplate} attribute is missing in your template`)
+            console.warn(`Overdog Autocomplete - A template tag with the ${labels.autocompleteTemplate} attribute is missing in your template or is not within your instance div.`)
             return
          }
          // events listeners
