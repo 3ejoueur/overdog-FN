@@ -12,10 +12,6 @@ export { SingleFilter } from "./filters/single-filter.js"
 // Search
 export { Autocomplete } from "./autocomplete/autocomplete.js"
 
-// Form
-export { FormValidation } from "./forms/validation.js"
-export { FormValidationWithApi } from "./forms/external-api.js"
-
 // lazyload
 export { lazyload as fnLazyload } from "./lazyload/lazyload.js"
 
