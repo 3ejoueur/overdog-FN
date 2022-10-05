@@ -153,7 +153,7 @@ export class Autocomplete {
    */
    _createSuggestionNode (results, inputValueRegex, inputValue) {
       const HTML = results.map(item => {
-         console.log(this.suggestionTemplate)
+
          const TEMPLATE_CLONE = this.suggestionTemplate.cloneNode(true)
          let SUGGESTION_STRING = TEMPLATE_CLONE.innerHTML.toString()
          const PLACEHOLDERS = SUGGESTION_STRING.match(/\$(.*?)\$/g)
