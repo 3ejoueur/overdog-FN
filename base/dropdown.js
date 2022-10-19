@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Dropdown
-  @classdesc Dropdown for form filters (or anything else)
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -13,12 +12,12 @@ export class Dropdown {
    --------------------------------------------------------------------------
    @method constructor
    @param {string} elem - CSS selector
-   @param {boolean} options.closeClickOutside
+   @param {boolean} options.closeClickingOutside
    --------------------------------------------------------------------------
   */
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
-         closeClickOutside: false
+         closeClickingOutside: false
       }
 
       Object.assign(this, DEFAULT_OPTIONS, options)
@@ -28,7 +27,6 @@ export class Dropdown {
    /**
    --------------------------------------------------------------------------
    @method _closeOnSelect
-   @desc - Close the dropdown when selecting a value
    --------------------------------------------------------------------------
    */
    _closeOnSelect (dropdown, headingText) {
@@ -41,7 +39,6 @@ export class Dropdown {
    /**
    --------------------------------------------------------------------------
    @method _replaceHeadingWithSelectedLabel
-   @desc - Replace the dropdown heading by the selected label
    --------------------------------------------------------------------------
    */
    _replaceHeadingWithSelectedLabel (dropdown, headingText) {
@@ -53,7 +50,6 @@ export class Dropdown {
    /**
    --------------------------------------------------------------------------
    @method _toggleDropdown
-   @desc - Open and close dropdown on heading button click
    --------------------------------------------------------------------------
    */
    _toggleDropdown (dropdown) {
@@ -70,7 +66,6 @@ export class Dropdown {
    /**
    --------------------------------------------------------------------------
    @method init
-   @desc - public - init
    --------------------------------------------------------------------------
    */
    init () {
@@ -84,7 +79,7 @@ export class Dropdown {
                window.addEventListener("load", this._replaceHeadingWithSelectedLabel.bind(this, dropdown, HEADING_TEXT))
             }
             // close the filter dropdown on click outside
-            if (this.closeClickOutside === true) {
+            if (this.closeClickingOutside === true) {
                document.addEventListener("click", event => {
                   if (!dropdown.contains(event.target)) dropdown.removeAttribute(labels.openState)
                })

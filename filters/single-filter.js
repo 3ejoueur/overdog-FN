@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Single choice filter for Craft CMS
-  @classdesc In most case, you just need to edit the path for the imported functions
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */

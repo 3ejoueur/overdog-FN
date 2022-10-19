@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Two-Panel menu
-  @classdesc A two panel menu that collapse in accordions on mobile device
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */

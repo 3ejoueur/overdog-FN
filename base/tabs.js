@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Tabs
-  @classdesc Tabs component with keyboard arrow navigation
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */

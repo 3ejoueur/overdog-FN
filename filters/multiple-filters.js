@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Multiple filters for Craft CMS
-  @classdesc In most case, you just need to edit the path for the imported functions
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -147,7 +146,6 @@ export class MultipleFilters {
    /**
    --------------------------------------------------------------------------
    @method init
-   @desc - public - init
    --------------------------------------------------------------------------
    */
    init () {

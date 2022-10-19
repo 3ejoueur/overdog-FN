@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
-  @class Modal with overlay or blurred background
-  @classdesc Modal class function with some options - see docs
+  @class Modal with overlay background
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */

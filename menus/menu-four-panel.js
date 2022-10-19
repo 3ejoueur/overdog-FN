@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Four-Panel menu
-  @classdesc A four panel menu that slides on mobile devices
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */

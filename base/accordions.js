@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Accordions
-  @classdesc In most case, you just need to edit the path for the imported functions
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -10,19 +9,19 @@
 import { showContent, hideContent, collapseAll } from "../shared/collapse"
 import { labels } from "../labels"
 
-
 export class Accordions {
    /**
    --------------------------------------------------------------------------
    @method constructor
    @param {string} elem - CSS selector
    @param {boolean} options.alternateMode - Set to true to open one accordion at the time
+   @param {boolean} options.closeClickingOutside - Set to true to open one accordion at the time
    --------------------------------------------------------------------------
   */
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
          alternateMode: false,
-         clickOnOutsideClick: false
+         closeClickingOutside: false
       }
 
       Object.assign(this, DEFAULT_OPTIONS, options)
@@ -32,7 +31,6 @@ export class Accordions {
    /**
    --------------------------------------------------------------------------
    @method _closeAccordionsOnClickOutside
-   @desc Close accordions on outside click - add-on for this project
    --------------------------------------------------------------------------
    */
    _closeAccordionsOnClickOutside (item) {
@@ -44,7 +42,6 @@ export class Accordions {
    /**
    --------------------------------------------------------------------------
    @method init
-   @desc use this to init your class instance
    --------------------------------------------------------------------------
    */
    init () {
@@ -52,7 +49,7 @@ export class Accordions {
          // get all the headings in this accordions group
          const ACCORDIONS_ITEM = item.querySelectorAll(`[${labels.accordions}]`)
          // close the accordions on click outside - feature only for this project
-         if (this.clickOnOutsideClick === true) this._closeAccordionsOnClickOutside(item)
+         if (this.closeClickingOutside === true) this._closeAccordionsOnClickOutside(item)
          ACCORDIONS_ITEM.forEach(accordion => {
             const HEADING = accordion.querySelector("button")
             if (HEADING) {

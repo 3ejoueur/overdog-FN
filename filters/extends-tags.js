@@ -83,7 +83,6 @@ export class MultipleFiltersWithTags extends MultipleFilters {
    /**
    --------------------------------------------------------------------------
    @method init
-   @desc - Use this to init your class instance
    --------------------------------------------------------------------------
    */
    init () {

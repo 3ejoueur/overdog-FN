@@ -1,7 +1,7 @@
 /**
 --------------------------------------------------------------------------
   Show and hide overlay functions
-  @author Ian Reid Langevin @3ejoueur
+  @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
 

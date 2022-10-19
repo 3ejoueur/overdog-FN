@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
   @class Single choice filter for Craft CMS
-  @classdesc In most case, you just need to edit the path for the imported functions
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -13,7 +12,7 @@ export class LoadMore {
    --------------------------------------------------------------------------
    @method constructor
    @param {string} elem - CSS selector
-   @param {array} options.divIds - Array of ID to replace from the fetch url
+   @param {array} options.loadMoreButtonId - ID of the load more button
    --------------------------------------------------------------------------
   */
 
@@ -37,7 +36,6 @@ export class LoadMore {
       // get the created values filter url and fetch the html
       document.body.setAttribute(labels.loadingState, "")
       const RESPONSE = await fetch(href)
-
       if (RESPONSE.ok) {
          // get response in text for html
          const DATA = await RESPONSE.text()
@@ -62,22 +60,18 @@ export class LoadMore {
    /**
    --------------------------------------------------------------------------
    @method init
-   @desc - public - init
    --------------------------------------------------------------------------
    */
    init () {
       if (this.pagesWrapper && this.buttonNode) {
          // Hard refresh when browser back button is pressed to refresh the listing
          window.addEventListener("popstate", () => { window.location.href = window.location })
-
          this.buttonNode.addEventListener("click", (event) => {
             event.preventDefault()
-
             const CURRENT_PAGE = this.pagesWrapper.lastElementChild
             const NEXT_PAGE = parseInt(CURRENT_PAGE.getAttribute("data-fn-load-more-page")) + 1
             const DIV_TO_FETCH = `[${labels.loadMorePage}='${NEXT_PAGE}']`
             const HREF = this._createUrl(NEXT_PAGE)
-
             history.pushState(null, null, HREF)
             this._fetchContent(HREF, DIV_TO_FETCH)
          })
