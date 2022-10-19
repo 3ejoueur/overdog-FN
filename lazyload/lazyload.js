@@ -2,21 +2,25 @@
 --------------------------------------------------------------------------
   Lazyload images with native lazy attribute if supported
 --------------------------------------------------------------------------
-
   Based on a snippet from frontmend.com and adapted with the web.dev recommandations
-  Opinionated by Ian Reid Langevin - 2020
-
+  Opinionated by Ian Reid Langevin - 2020 - Updated in 2022
 */
 
 export function lazyload () {
    const LAZY_IMAGES = document.querySelectorAll("[loading=\"lazy\"]")
 
    function renameDataSet (element) {
-      element.srcset = element.dataset.srcset
-      element.src = element.dataset.src
-      // optionnal - clean html after
-      element.removeAttribute("data-srcset")
-      element.removeAttribute("data-src")
+      const dataSrcSet = element.getAttribute("data-srcset")
+      const dataSrc = element.getAttribute("data-src")
+
+      if (dataSrcSet) { 
+         element.srcset = element.dataset.srcset
+         element.removeAttribute("data-srcset") // optionnal - clean html after
+      }
+      if (dataSrc) {
+         element.src = element.dataset.src
+         element.removeAttribute("data-src") // optionnal - clean html after
+      }
    }
 
    // if IntersectionObserver IS support but NOT native lazy loading
@@ -46,3 +50,5 @@ export function lazyload () {
       })
    }
 }
+
+lazyload()
