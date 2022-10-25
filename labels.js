@@ -45,5 +45,6 @@ export const labels = {
    tagTemplate: "data-fn-tag-template",
    tagRow: "data-fn-tag-row",
    tagContent: "data-fn-tag-content",
+   tagTitle: "data-fn-tag-title",
    filterGroup: "data-fn-filter-group"
 }

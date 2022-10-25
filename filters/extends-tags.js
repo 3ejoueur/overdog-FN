@@ -40,8 +40,9 @@ export class MultipleFiltersWithTags extends MultipleFilters {
       // get data-attribute from the clone and it child div
       const NEW_TAG = TAG_TEMPLATE_CLONE.querySelector(`[${labels.tagId}]`)
       const NEW_TAG_CONTENT = TAG_TEMPLATE_CLONE.querySelector(`[${labels.tagContent}]`)
-      // set cat name as textContent
-      NEW_TAG_CONTENT.innerText = input.labels[0].textContent
+      // attribute labels.tagTitle allow to pass a tag title distinct from node element. Can be useful if label has multiple span tags.
+      const TAG_LABEL = input.labels[0].hasAttribute(labels.tagTitle) ? input.labels[0].getAttribute(labels.tagTitle) : input.labels[0].textContent
+      NEW_TAG_CONTENT.innerText = TAG_LABEL
       NEW_TAG.setAttribute(labels.tagId, input.id)
       RELATED_TAGS_ROW.appendChild(NEW_TAG)
       // add an event listener on it for click
