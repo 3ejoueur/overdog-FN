@@ -6,6 +6,7 @@
 */
 
 import { labels } from "../labels.js"
+import { renameDataSet } from "../lazyload/lazyload"
 
 export async function fetchContent (href, divIds) {
    document.body.setAttribute(labels.loadingState, "")
@@ -24,10 +25,7 @@ export async function fetchContent (href, divIds) {
          const FETCHED_CONTENT = DOC.getElementById(id)
          if (FETCHED_CONTENT) {
             // replace data-src on images - lazyload - will be optimize in future
-            FETCHED_CONTENT.querySelectorAll("[loading=\"lazy\"]").forEach(img => {
-               img.srcset = img.dataset.srcset
-               img.src = img.dataset.src
-            })
+            FETCHED_CONTENT.querySelectorAll("[loading=\"lazy\"]").forEach(element => { renameDataSet(element) })
             // replace the actual content in the current page with the new one
             ACTUAL_CONTENT.innerHTML = FETCHED_CONTENT.innerHTML
          }

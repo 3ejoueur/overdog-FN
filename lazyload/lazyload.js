@@ -6,22 +6,22 @@
   Opinionated by Ian Reid Langevin - 2020 - Updated in 2022
 */
 
+export function renameDataSet (element) {
+   const dataSrcSet = element.getAttribute("data-srcset")
+   const dataSrc = element.getAttribute("data-src")
+
+   if (dataSrcSet) { 
+      element.srcset = element.dataset.srcset
+      element.removeAttribute("data-srcset") // optionnal - clean html after
+   }
+   if (dataSrc) {
+      element.src = element.dataset.src
+      element.removeAttribute("data-src") // optionnal - clean html after
+   }
+}
+
 export function lazyload () {
    const LAZY_IMAGES = document.querySelectorAll("[loading=\"lazy\"]")
-
-   function renameDataSet (element) {
-      const dataSrcSet = element.getAttribute("data-srcset")
-      const dataSrc = element.getAttribute("data-src")
-
-      if (dataSrcSet) { 
-         element.srcset = element.dataset.srcset
-         element.removeAttribute("data-srcset") // optionnal - clean html after
-      }
-      if (dataSrc) {
-         element.src = element.dataset.src
-         element.removeAttribute("data-src") // optionnal - clean html after
-      }
-   }
 
    // if IntersectionObserver IS support but NOT native lazy loading
    // (Safari, old Chromium)
@@ -50,5 +50,3 @@ export function lazyload () {
       })
    }
 }
-
-lazyload()
