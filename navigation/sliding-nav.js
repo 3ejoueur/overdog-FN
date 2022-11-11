@@ -87,25 +87,25 @@ export class SlidingNav {
          this.navButtons.forEach(button => {
             // get the related panel
             const RELATED_NAV = document.querySelector(`[${labels.navPanel}="${button.getAttribute(labels.navButton)}"]`)
-            const CLOSE_BUTTON = RELATED_NAV.querySelector(`[${labels.navClose}]`)
-
-            if (CLOSE_BUTTON) CLOSE_BUTTON.addEventListener("click", () => { this._closeAllNavs() })
-
-            button.addEventListener("click", () => {
-               // get the value of the data attribute
-               const CURRENT_BUTTON_VALUE = button.getAttribute(labels.navButton)
-               // manage state of all panels and buttons
-               if (!document.body.hasAttribute(labels.navOpen)) {
-                  this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button)
-                  return
-               }
-               if (document.body.getAttribute(labels.navOpen) === CURRENT_BUTTON_VALUE) {
-                  this._closeAllNavs()
-               } else { // manage the toggle between 2 different panels - keep the overlay
-                  this._closeAllNavs()
-                  setTimeout(() => { this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button) }, this.delayBetweenOpenings)
-               }
-            })
+            if (RELATED_NAV) {
+               const CLOSE_BUTTON = RELATED_NAV.querySelector(`[${labels.navClose}]`)
+               if (CLOSE_BUTTON) CLOSE_BUTTON.addEventListener("click", () => { this._closeAllNavs() })
+               button.addEventListener("click", () => {
+                  // get the value of the data attribute
+                  const CURRENT_BUTTON_VALUE = button.getAttribute(labels.navButton)
+                  // manage state of all panels and buttons
+                  if (!document.body.hasAttribute(labels.navOpen)) {
+                     this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button)
+                     return
+                  }
+                  if (document.body.getAttribute(labels.navOpen) === CURRENT_BUTTON_VALUE) {
+                     this._closeAllNavs()
+                  } else { // manage the toggle between 2 different panels - keep the overlay
+                     this._closeAllNavs()
+                     setTimeout(() => { this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button) }, this.delayBetweenOpenings)
+                  }
+               })
+            }
          })
          // if overlay, add the eventlistener and close all navs
          if (this.overlay) this.overlay.addEventListener("click", () => { this._closeAllNavs() })
