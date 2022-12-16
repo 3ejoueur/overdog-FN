@@ -1,6 +1,6 @@
 /**
 --------------------------------------------------------------------------
-  @class Four-Panel menu
+  @class MenuFourPanel
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -26,7 +26,6 @@ export class MenuFourPanel {
       this.menuSelector = document.querySelector(elem)
 
       if (this.menuSelector) {
-         // dom elements
          this.menuButtons = this.menuSelector.querySelectorAll(`[${labels.menuButton}]`)
          this.menuBackButtons = this.menuSelector.querySelectorAll(`[${labels.menuBack}]`)
          this.onLoadcurrentMenuLink = this.menuSelector.querySelector(this.currentLinkSelector)
@@ -72,7 +71,7 @@ export class MenuFourPanel {
 
    _backButtonCloseSubmenu (backBtn) {
       const TARGET_SUBMENU = document.getElementById(backBtn.getAttribute(labels.menuSubmenu))
-      const ANCESTOR_BUTTON = document.querySelector(`[${labels.menuBack}="${backBtn.getAttribute(labels.menuBack)}"]`)
+      const ANCESTOR_BUTTON = document.getElementById(backBtn.getAttribute(labels.menuBack))
       ANCESTOR_BUTTON.removeAttribute(labels.openState)
       TARGET_SUBMENU.removeAttribute(labels.openState)
    }
