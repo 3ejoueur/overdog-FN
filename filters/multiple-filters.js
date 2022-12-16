@@ -1,6 +1,6 @@
 /**
 --------------------------------------------------------------------------
-  @class Multiple filters for Craft CMS
+  @class MultipleFilters
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -38,7 +38,6 @@ export class MultipleFilters {
    --------------------------------------------------------------------------
    @method _getGroupsData
    @desc - Get the urlName and the inputs for each group in filter
-   @return GROUPS_LIST_DATA:array
    --------------------------------------------------------------------------
    */
    _getGroupsData () {

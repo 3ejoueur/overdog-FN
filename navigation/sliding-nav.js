@@ -1,8 +1,7 @@
 
 /**
 --------------------------------------------------------------------------
-  @class MegaNav
-  @classdesc Toggle between multiple nav buttons and open class on body
+  @class SlidingNav
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -13,13 +12,12 @@ import { labels } from "../labels"
 export class SlidingNav {
    /**
    --------------------------------------------------------------------------
-      elem
-      @param {string} elem - CSS selector - Wrapper around the open buttons to allow multiple instances with different options
-      options
-      @param {integer} delayBetweenOpenings - Delay between mega nav in milliseconds
-      @param {string} backTransition - Style applied for back transition to avoid FOUC
-      @param {string} overlaySelector - CSS Selector
-      --------------------------------------------------------------------------
+   @method constructor
+   @param {string} elem - CSS selector - Wrapper around the open buttons to allow multiple instances with different options
+   @param {integer} delayBetweenOpenings - Delay between mega nav in milliseconds
+   @param {string} backTransition - Style applied for back transition to avoid FOUC
+   @param {string} overlaySelector - CSS Selector
+   --------------------------------------------------------------------------
    */
 
    constructor (elem, options) {
@@ -100,7 +98,8 @@ export class SlidingNav {
                   }
                   if (document.body.getAttribute(labels.navOpen) === CURRENT_BUTTON_VALUE) {
                      this._closeAllNavs()
-                  } else { // manage the toggle between 2 different panels - keep the overlay
+                  // manage the toggle between 2 different panels - keep the overlay
+                  } else {
                      this._closeAllNavs()
                      setTimeout(() => { this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button) }, this.delayBetweenOpenings)
                   }

@@ -1,6 +1,6 @@
 /**
 --------------------------------------------------------------------------
-  @class Single choice filter for Craft CMS
+  @class LoadMore
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -25,6 +25,11 @@ export class LoadMore {
       this.buttonNode = document.getElementById(this.loadMoreButtonId)
    }
 
+   /**
+   --------------------------------------------------------------------------
+   @method _createUrl
+   --------------------------------------------------------------------------
+  */
    _createUrl (nextPage) {
       const PARAMS = new URLSearchParams(window.location.search)
       PARAMS.set("page", nextPage)
@@ -32,6 +37,11 @@ export class LoadMore {
       return URL
    }
 
+   /**
+   --------------------------------------------------------------------------
+   @method _fetchContent
+   --------------------------------------------------------------------------
+  */
    async _fetchContent (href, divToGet) {
       // get the created values filter url and fetch the html
       document.body.setAttribute(labels.loadingState, "")

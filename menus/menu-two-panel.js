@@ -1,6 +1,6 @@
 /**
 --------------------------------------------------------------------------
-  @class Two-Panel menu
+  @class MenuTwoPanel
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -12,23 +12,23 @@ export class MenuTwoPanel {
    /**
    --------------------------------------------------------------------------
    @method constructor
-   @param {string} elem - CSS selector
-   @param {string} options.collapseBreakpoint - Breakpoint to collapse in accordions
+   @param {string} elem
+   @param {string} options.collapseBreakpoint
    @param {string} options.currentLinkSelector
-   @param {string} options.hideCurrentOnMobile
+   @param {boolean} options.hideCurrentOnMobile
+   @param {boolean} options.closeActiveOnClick
    --------------------------------------------------------------------------
    */
-
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
          collapseBreakpoint: "767px",
          currentLinkSelector: "[data-fn-uri=\"current\"]",
-         hideCurrentOnMobile: false
+         hideCurrentOnMobile: false,
+         closeActiveOnClick: false
       }
 
       Object.assign(this, DEFAULT_OPTIONS, options)
-      // Return only 1 element - wrapper of your whole menu
-      this.menuSelector = document.querySelector(elem)
+      this.menuSelector = document.querySelector(elem) // wrapper of your whole menu
       this.mediaQueryDesktop = window.matchMedia(`screen and (max-width: ${this.collapseBreakpoint})`)
       if (this.menuSelector) this.onLoadcurrentMenuLink = this.menuSelector.querySelector(this.currentLinkSelector)
    }
@@ -65,7 +65,7 @@ export class MenuTwoPanel {
                const RELATED_SUBMENU = document.getElementById(HEADING.getAttribute(labels.target))
                // if submenu is already open - close it on click and end function with return
                if (menuItem.hasAttribute(labels.openState)) {
-                  if (this.mediaQueryDesktop.matches) {
+                  if (this.mediaQueryDesktop.matches || this.closeActiveOnClick === true) {
                      hideContent(menuItem, HEADING, RELATED_SUBMENU)
                   }
                   return
@@ -85,7 +85,8 @@ export class MenuTwoPanel {
    */
    init () {
       if (this.onLoadcurrentMenuLink) {
-         if (this.hideCurrentOnMobile) { // option enable to open current element only on desktop (not in accordions view)
+         // option enable to open current element only on desktop (not in accordions view)
+         if (this.hideCurrentOnMobile) {
             if (!this.mediaQueryDesktop.matches) this._openParent(this.onLoadcurrentMenuLink)
          } else {
             this._openParent(this.onLoadcurrentMenuLink)

@@ -1,9 +1,9 @@
 /**
-   --------------------------------------------------------------------------
-      @function trapFocus
-      @param {HTMLElement} elem - Dom element
-      @param {Boolean} focusOnFirstFocusable - Boolean
-   --------------------------------------------------------------------------
+--------------------------------------------------------------------------
+   @function trapFocus
+   @param {HTMLElement} elem - Dom element
+   @param {Boolean} focusOnFirstFocusable - Boolean
+--------------------------------------------------------------------------
 */
 
 export function trapFocus (elem, focusOnFirstFocusable = true) {

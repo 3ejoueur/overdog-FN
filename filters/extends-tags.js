@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
-   @class MultipleFiltersWithTags for Craft CMS
-   @classdesc MultipleFiltersWithTags extends MultipleFilters class to add tags for filters
+   @class MultipleFiltersWithTags
    @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -23,7 +22,6 @@ export class MultipleFiltersWithTags extends MultipleFilters {
    /**
    --------------------------------------------------------------------------
    @method _getGroupsData
-   @param  {} input
    @desc - Create tag if input is checked
    --------------------------------------------------------------------------
    */
@@ -52,7 +50,6 @@ export class MultipleFiltersWithTags extends MultipleFilters {
    /**
    --------------------------------------------------------------------------
    @method _removeTag
-   @param  {event} event
    @desc - Remove tag
    --------------------------------------------------------------------------
    */

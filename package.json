@@ -7,6 +7,8 @@
       "test": "echo \"Error: no test specified\" && exit 1"
    },
    "keywords": [
+      "Craft CMS",
+      "CraftCms",
       "Craft",
       "CMS",
       "Filters",
@@ -14,8 +16,9 @@
       "Autocomplete",
       "Dropdown",
       "Overdog",
-      "Craft CMS",
       "Ian Reid Langevin",
+      "Reid Langevin",
+      "Ian Reid",
       "3ejoueur"
    ],
    "author": "Ian Reid Langevin",

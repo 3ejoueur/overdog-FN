@@ -65,7 +65,6 @@ export class Autocomplete {
    /**
    --------------------------------------------------------------------------
    @method handleEvent
-   @param {event} event
    @desc Default event hub for init method
    --------------------------------------------------------------------------
    */

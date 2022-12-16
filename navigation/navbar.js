@@ -1,7 +1,6 @@
 /**
 --------------------------------------------------------------------------
-  @class NavbarSticky
-  @classdesc A sticky navbar using requestAnimationFrame for better performance
+  @class Navbar
   @author Ian Reid Langevin
 --------------------------------------------------------------------------
 */
@@ -11,10 +10,9 @@ import { labels } from "../labels.js"
 export class Navbar {
    /**
    --------------------------------------------------------------------------
-      elem
-      @param {string} elem - CSS selector
-      options
-      @param {integer} scrollTopDistance
+   @method constructor
+   @param {string} elem - CSS selector
+   @param {integer} scrollTopDistance
    --------------------------------------------------------------------------
    */
 
@@ -35,7 +33,7 @@ export class Navbar {
    @method toggleNavbarActiveState
    --------------------------------------------------------------------------
    */
-   toggleNavbarSticky () {
+   _toggleNavbarSticky () {
    // old iOS used document.body.scrollTop but not modern browsers - get the bigger number
       const SCROLL_TOP_DISTANCE = Math.max(document.documentElement.scrollTop, document.body.scrollTop)
       if (SCROLL_TOP_DISTANCE > this.scrollTopDistance) {
@@ -50,7 +48,7 @@ export class Navbar {
    @method toggleNavbarHiding
    --------------------------------------------------------------------------
    */
-   toggleNavbarHiding () {
+   _toggleNavbarHiding () {
       const CURRENT_SCROLL_POSITION = window.pageYOffset
       // old iOS used document.body.scrollTop but not modern browsers - get the bigger number
       const SCROLL_TOP_DISTANCE = Math.max(document.documentElement.scrollTop, document.body.scrollTop)
@@ -77,14 +75,7 @@ export class Navbar {
          window.addEventListener("scroll", () => {
             if (!ticking) {
                window.requestAnimationFrame(() => {
-                  switch (this.behavior) {
-                  case "hidden":
-                     this.toggleNavbarHiding()
-                     break
-                  default:
-                     this.toggleNavbarSticky()
-                     break
-                  }
+                  this.behavior === "hidden" ? this._toggleNavbarHiding() : this._toggleNavbarSticky()
                   ticking = false
                })
                ticking = true

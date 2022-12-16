@@ -10,7 +10,7 @@ export function renameDataSet (element) {
    const dataSrcSet = element.getAttribute("data-srcset")
    const dataSrc = element.getAttribute("data-src")
 
-   if (dataSrcSet) { 
+   if (dataSrcSet) {
       element.srcset = element.dataset.srcset
       element.removeAttribute("data-srcset") // optionnal - clean html after
    }
