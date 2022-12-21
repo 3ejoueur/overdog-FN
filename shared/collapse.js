@@ -6,9 +6,15 @@
 */
 
 import { labels } from "../labels.js"
-export { showContent, hideContent, collapseAll }
-/*
-  Show function
+export { showContent, hideContent, collapseAll, openAll }
+
+/**
+--------------------------------------------------------------------------
+   @function showContent
+   @param {HTMLElement} accordion - Dom element
+   @param {HTMLElement} heading - Dom element
+   @param {HTMLElement} targetContent - Dom element
+--------------------------------------------------------------------------
 */
 function showContent (accordion, heading, targetContent) {
    targetContent.style.height = targetContent.scrollHeight + "px"
@@ -21,8 +27,14 @@ function showContent (accordion, heading, targetContent) {
       }
    })
 }
-/*
-  Hide function
+
+/**
+--------------------------------------------------------------------------
+   @function hideContent
+   @param {HTMLElement} accordion - Dom element
+   @param {HTMLElement} heading - Dom element
+   @param {HTMLElement} targetContent - Dom element
+--------------------------------------------------------------------------
 */
 function hideContent (accordion, heading, targetContent) {
    targetContent.style.height = targetContent.scrollHeight + "px"
@@ -31,8 +43,13 @@ function hideContent (accordion, heading, targetContent) {
    // wait for height from auto to the scrollHeight, and then reset to 0 for smooth transition
    setTimeout(() => { targetContent.style.height = 0 }, 30)
 }
-/*
-  Reset function - Used by the alternate mode
+
+/**
+--------------------------------------------------------------------------
+   @function collapseAll
+   @desc clopse all accordions
+   @param {HTMLElement} wrapper - Dom element
+--------------------------------------------------------------------------
 */
 function collapseAll (item) {
    const OPEN_ACCORDIONS = item.querySelectorAll(`[${labels.openState}]`)
@@ -41,6 +58,24 @@ function collapseAll (item) {
          const HEADING = accordion.querySelector("button")
          const OPEN_TARGET = document.getElementById(HEADING.getAttribute(labels.target))
          hideContent(accordion, HEADING, OPEN_TARGET)
+      })
+   }
+}
+
+/**
+--------------------------------------------------------------------------
+   @function openAll
+   @desc Open all accordions
+   @param {HTMLElement} wrapper - Dom element
+--------------------------------------------------------------------------
+*/
+function openAll (wrapper) {
+   const CLOSED_ACCORDIONS = wrapper.querySelectorAll(`[${labels.accordions}]`)
+   if (CLOSED_ACCORDIONS) {
+      CLOSED_ACCORDIONS.forEach(accordion => {
+         const HEADING = accordion.querySelector("button")
+         const TARGET_CONTENT = document.getElementById(HEADING.getAttribute(labels.target))
+         showContent(accordion, HEADING, TARGET_CONTENT)
       })
    }
 }
