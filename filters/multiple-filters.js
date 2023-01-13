@@ -16,6 +16,7 @@ export class MultipleFilters {
    @param {array} options.divIds - Array of ID to replace from the fetch url
    @param {boolean} options.fetchOnlyOnSubmit - Set true if you want to use a submit button to fetch content
    @param {string} options.clearAllButtonId - ID of the clear all button - optionnal
+    @param {string} options.paramToRemove - Param in URL that you want to remove on change (ex:a load more pagination)
    @param {Regex} options.regexToRemove - Regex Expression to remove from URL on filter events
    --------------------------------------------------------------------------
   */
@@ -24,6 +25,7 @@ export class MultipleFilters {
          divIds: ["listing"],
          fetchOnlyOnSubmit: false,
          clearAllButtonId: null,
+         paramToRemove: null,
          regexToRemove: /\/p[0-9]+/
       }
       Object.assign(this, DEFAULT_OPTIONS, options)
@@ -130,6 +132,9 @@ export class MultipleFilters {
                GROUP_INPUTS_VALUES.push(input.value)
             }
          })
+         // Remove param already in URL (if set)
+         if (this.paramToRemove) PARAMS.delete(this.paramToRemove)
+         // Set new params from filter group and delete empty ones
          if (GROUP_INPUTS_VALUES.length > 0) {
             PARAMS.set(group.urlName, GROUP_INPUTS_VALUES)
          } else {
