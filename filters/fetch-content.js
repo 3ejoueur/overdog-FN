@@ -5,11 +5,10 @@
 --------------------------------------------------------------------------
 */
 
-import { labels } from "../labels.js"
 import { renameDataSet } from "../lazyload/lazyload"
 
-export async function fetchContent (href, divIds) {
-   document.body.setAttribute(labels.loadingState, "")
+export async function fetchContent (href, divIds, loadingAttribute = "data-fn-is-loading") {
+   document.body.setAttribute(loadingAttribute, "")
 
    const RESPONSE = await fetch(href)
 
@@ -32,5 +31,5 @@ export async function fetchContent (href, divIds) {
       })
    }
 
-   document.body.removeAttribute(labels.loadingState)
+   document.body.removeAttribute(loadingAttribute)
 }

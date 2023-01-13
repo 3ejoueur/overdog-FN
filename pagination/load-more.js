@@ -5,8 +5,6 @@
 --------------------------------------------------------------------------
 */
 
-import { labels } from "../labels.js"
-
 export class LoadMore {
    /**
    --------------------------------------------------------------------------
@@ -18,8 +16,18 @@ export class LoadMore {
 
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
-         loadMoreButtonId: "load-more-button"
+         loadMoreButtonId: "load-more-button",
+         attributes: {}
       }
+
+      const DEFAULT_ATTRIBUTES = {
+         loadMorePage: "data-fn-load-more-page",
+         loadingState: "data-fn-is-loading"
+      }
+
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
       this.pagesWrapper = document.querySelector(elem)
       this.buttonNode = document.getElementById(this.loadMoreButtonId)
@@ -44,7 +52,7 @@ export class LoadMore {
   */
    async _fetchContent (href, divToGet) {
       // get the created values filter url and fetch the html
-      document.body.setAttribute(labels.loadingState, "")
+      document.body.setAttribute(this.attr.loadingState, "")
       const RESPONSE = await fetch(href)
       if (RESPONSE.ok) {
          // get response in text for html
@@ -64,7 +72,7 @@ export class LoadMore {
          // remove button from dom if not present on the fetched URL
          if (!HAS_BUTTON) this.buttonNode.remove()
       }
-      document.body.removeAttribute(labels.loadingState)
+      document.body.removeAttribute(this.attr.loadingState)
    }
 
    /**
@@ -80,7 +88,7 @@ export class LoadMore {
             event.preventDefault()
             const CURRENT_PAGE = this.pagesWrapper.lastElementChild
             const NEXT_PAGE = parseInt(CURRENT_PAGE.getAttribute("data-fn-load-more-page")) + 1
-            const DIV_TO_FETCH = `[${labels.loadMorePage}='${NEXT_PAGE}']`
+            const DIV_TO_FETCH = `[${this.attr.loadMorePage}='${NEXT_PAGE}']`
             const HREF = this._createUrl(NEXT_PAGE)
             history.pushState(null, null, HREF)
             this._fetchContent(HREF, DIV_TO_FETCH)

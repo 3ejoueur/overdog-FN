@@ -5,8 +5,6 @@
 --------------------------------------------------------------------------
 */
 
-import { labels } from "../labels"
-
 export class Tabs {
    /**
     elem
@@ -17,9 +15,21 @@ export class Tabs {
 
    constructor (elem, options) {
       const defaultOptions = {
-         makeFirstTabActive: false
+         makeFirstTabActive: false,
+         attributes: {}
       }
 
+      const DEFAULT_ATTRIBUTES = {
+         openState: "data-fn-is-open",
+         tabs: "data-fn-tabs",
+         tabsHeading: "data-fn-tabs-heading",
+         tabsContent: "data-fn-tabs-content",
+         tabsClose: "data-fn-tabs-content",
+         target: "data-fn-target"
+      }
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, defaultOptions, options)
       this.tabsGroups = document.querySelectorAll(elem)
    }
@@ -32,32 +42,30 @@ export class Tabs {
    init () {
       if (this.tabsGroups) {
          this.tabsGroups.forEach(tabGroup => {
-            const TABS_LIST = tabGroup.querySelector(`[${labels.tabs}]`)
-            const TABS_HEADINGS = tabGroup.querySelectorAll(`[${labels.tabsHeading}]`)
-            const TABS_CONTENTS = tabGroup.querySelectorAll(`[${labels.tabsContent}]`)
-
+            const TABS_LIST = tabGroup.querySelector(`[${this.attr.tabs}]`)
+            const TABS_HEADINGS = tabGroup.querySelectorAll(`[${this.attr.tabsHeading}]`)
+            const TABS_CONTENTS = tabGroup.querySelectorAll(`[${this.attr.tabsContent}]`)
             // add the active class on the first element on page load
             if (this.makeFirstTabActive) {
-               TABS_CONTENTS[0].setAttribute(labels.openState, "")
-               TABS_HEADINGS[0].setAttribute(labels.openState, "")
+               TABS_CONTENTS[0].setAttribute(this.attr.openState, "")
+               TABS_HEADINGS[0].setAttribute(this.attr.openState, "")
             }
-
             // click action
             TABS_HEADINGS.forEach(heading => {
                heading.addEventListener("click", () => {
                   TABS_HEADINGS.forEach(heading => {
-                     heading.removeAttribute(labels.openState)
+                     heading.removeAttribute(this.attr.openState)
                      heading.setAttribute("aria-selected", false)
                   })
                   TABS_CONTENTS.forEach(content => {
-                     content.removeAttribute(labels.openState)
+                     content.removeAttribute(this.attr.openState)
                   })
                   // set heading active state
-                  heading.setAttribute(labels.openState, "")
+                  heading.setAttribute(this.attr.openState, "")
                   heading.setAttribute("aria-selected", true)
                   // set target content active state
-                  const TARGET_CONTENT = document.getElementById(heading.getAttribute(labels.target))
-                  TARGET_CONTENT.setAttribute(labels.openState, "")
+                  const TARGET_CONTENT = document.getElementById(heading.getAttribute(this.attr.target))
+                  TARGET_CONTENT.setAttribute(this.attr.openState, "")
                })
             })
             this._keyboardNav(TABS_LIST, TABS_HEADINGS)

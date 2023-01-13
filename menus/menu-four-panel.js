@@ -5,8 +5,6 @@
 --------------------------------------------------------------------------
 */
 
-import { labels } from "../labels"
-
 export class MenuFourPanel {
    /**
    --------------------------------------------------------------------------
@@ -18,16 +16,29 @@ export class MenuFourPanel {
 
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
-         currentLinkSelector: "[data-fn-uri=\"current\"]"
+         currentLinkSelector: "[data-fn-uri=\"current\"]",
+         attributes: {}
       }
 
+      const DEFAULT_ATTRIBUTES = {
+         openState: "data-fn-is-open",
+         menuItem: "data-fn-menu-item",
+         menuList: "data-fn-menu-list",
+         menuSubmenu: "data-fn-submenu",
+         menuButton: "data-fn-menu-button",
+         menuBack: "data-fn-menu-back"
+      }
+
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
 
       this.menuSelector = document.querySelector(elem)
 
       if (this.menuSelector) {
-         this.menuButtons = this.menuSelector.querySelectorAll(`[${labels.menuButton}]`)
-         this.menuBackButtons = this.menuSelector.querySelectorAll(`[${labels.menuBack}]`)
+         this.menuButtons = this.menuSelector.querySelectorAll(`[${this.attr.menuButton}]`)
+         this.menuBackButtons = this.menuSelector.querySelectorAll(`[${this.attr.menuBack}]`)
          this.onLoadcurrentMenuLink = this.menuSelector.querySelector(this.currentLinkSelector)
       }
    }
@@ -39,13 +50,13 @@ export class MenuFourPanel {
    --------------------------------------------------------------------------
    */
    _closeNotActiveSubmenus (btn) {
-      const PARENTS_LIST = btn.closest(`[${labels.menuList}]`)
-      const CHILD_LIST = PARENTS_LIST.querySelectorAll(`[${labels.menuList}]`)
-      const CHILD_BUTTONS = PARENTS_LIST.querySelectorAll(`[${labels.menuButton}]`)
-      CHILD_LIST.forEach(submenu => { submenu.removeAttribute(labels.openState) })
+      const PARENTS_LIST = btn.closest(`[${this.attr.menuList}]`)
+      const CHILD_LIST = PARENTS_LIST.querySelectorAll(`[${this.attr.menuList}]`)
+      const CHILD_BUTTONS = PARENTS_LIST.querySelectorAll(`[${this.attr.menuButton}]`)
+      CHILD_LIST.forEach(submenu => { submenu.removeAttribute(this.attr.openState) })
       CHILD_BUTTONS.forEach(childBtn => {
          childBtn.setAttribute("aria-expanded", false)
-         childBtn.removeAttribute(labels.openState)
+         childBtn.removeAttribute(this.attr.openState)
       })
    }
 
@@ -56,10 +67,10 @@ export class MenuFourPanel {
    --------------------------------------------------------------------------
    */
    _openSubmenu (btn) {
-      const TARGET_SUBMENU = document.getElementById(btn.getAttribute(labels.menuSubmenu))
-      TARGET_SUBMENU.setAttribute(labels.openState, "")
+      const TARGET_SUBMENU = document.getElementById(btn.getAttribute(this.attr.menuSubmenu))
+      TARGET_SUBMENU.setAttribute(this.attr.openState, "")
       btn.setAttribute("aria-expanded", true)
-      btn.setAttribute(labels.openState, "")
+      btn.setAttribute(this.attr.openState, "")
    }
 
    /**
@@ -70,10 +81,10 @@ export class MenuFourPanel {
    */
 
    _backButtonCloseSubmenu (backBtn) {
-      const TARGET_SUBMENU = document.getElementById(backBtn.getAttribute(labels.menuSubmenu))
-      const ANCESTOR_BUTTON = document.getElementById(backBtn.getAttribute(labels.menuBack))
-      ANCESTOR_BUTTON.removeAttribute(labels.openState)
-      TARGET_SUBMENU.removeAttribute(labels.openState)
+      const TARGET_SUBMENU = document.getElementById(backBtn.getAttribute(this.attr.menuSubmenu))
+      const ANCESTOR_BUTTON = document.getElementById(backBtn.getAttribute(this.attr.menuBack))
+      ANCESTOR_BUTTON.removeAttribute(this.attr.openState)
+      TARGET_SUBMENU.removeAttribute(this.attr.openState)
    }
 
    /**
@@ -89,11 +100,11 @@ export class MenuFourPanel {
       }
       if (parents) {
          parents.forEach(item => {
-            if (item.hasAttribute(labels.menuList)) {
-               item.setAttribute(labels.openState, "")
-            } else if (item.hasAttribute(labels.menuItem)) {
-               const menuParent = item.querySelector(`[${labels.menuButton}]`)
-               if (menuParent) menuParent.setAttribute(labels.openState, "")
+            if (item.hasAttribute(this.attr.menuList)) {
+               item.setAttribute(this.attr.openState, "")
+            } else if (item.hasAttribute(this.attr.menuItem)) {
+               const menuParent = item.querySelector(`[${this.attr.menuButton}]`)
+               if (menuParent) menuParent.setAttribute(this.attr.openState, "")
             }
          })
       }
@@ -112,13 +123,13 @@ export class MenuFourPanel {
          if (this.menuButtons.length) {
             this.menuButtons.forEach(btn => {
                btn.addEventListener("click", () => {
-                  if (btn.hasAttribute(labels.openState)) return // menu is already open - do nothing
+                  if (btn.hasAttribute(this.attr.openState)) return // menu is already open - do nothing
                   this._closeNotActiveSubmenus(btn)
                   this._openSubmenu(btn)
                })
             })
          } else {
-            console.warn("No menu buttons found, add data-navig-menu-button on your four-panel menu buttons")
+            console.warn(`No menu buttons found, add ${this.menuButton} on your four-panel menu buttons`)
          }
          // back button action
          if (this.menuBackButtons.length) {
@@ -126,7 +137,7 @@ export class MenuFourPanel {
                backBtn.addEventListener("click", () => { this._backButtonCloseSubmenu(backBtn) })
             })
          } else {
-            console.warn("No BACK buttons found, add data-navig-back-button on buttons inside your submenu panels")
+            console.warn(`No BACK buttons found, add ${this.menuBack} on buttons inside your submenu panels`)
          }
       }
    }

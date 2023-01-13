@@ -41,7 +41,6 @@ export function lazyload () {
       LAZY_IMAGES.forEach(img => {
          IMAGE_OBSERVER.observe(img)
       })
-
    // else native lazy loading IS supported OR IntersectionObserver is NOT
    // (very new or very old browsers)
    } else {

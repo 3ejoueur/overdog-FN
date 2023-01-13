@@ -6,7 +6,6 @@
 */
 
 import { showOverlay, hideAllOverlay } from "../shared/overlay"
-import { labels } from "../labels"
 import { trapFocus } from "../shared/trap-focus"
 
 export class Modal {
@@ -21,9 +20,21 @@ export class Modal {
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
          overlaySelector: "#overlay",
-         focusOnFirstFocusable: true
+         focusOnFirstFocusable: true,
+         attributes: {}
       }
 
+      const DEFAULT_ATTRIBUTES = {
+         openState: "data-fn-is-open",
+         modalButton: "data-fn-modal-button",
+         modalBox: "data-fn-modal-box",
+         modalClose: "data-fn-modal-close",
+         target: "data-fn-target"
+      }
+
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
 
       this.modalOpenButtons = document.querySelectorAll(elem)
@@ -37,10 +48,10 @@ export class Modal {
    */
    _openModal (eventTarget, targetModal) {
       eventTarget.setAttribute("aria-expanded", true)
-      eventTarget.setAttribute(labels.openState, "")
+      eventTarget.setAttribute(this.attr.openState, "")
       if (targetModal) {
-         targetModal.setAttribute(labels.openState, "")
-         if (this.overlay) showOverlay(this.overlay)
+         targetModal.setAttribute(this.attr.openState, "")
+         if (this.overlay) showOverlay(this.overlay, this.attr.openState)
          trapFocus(targetModal, this.focusOnFirstFocusable)
       }
    }
@@ -51,16 +62,16 @@ export class Modal {
    --------------------------------------------------------------------------
    */
    _closeModal () {
-      const OPEN_MODAL = document.querySelector(`[${labels.modalBox}][${labels.openState}]`)
-      const OPEN_BUTTON = document.querySelector(`[${labels.modalButton}][${labels.openState}]`)
+      const OPEN_MODAL = document.querySelector(`[${this.attr.modalBox}][${this.attr.openState}]`)
+      const OPEN_BUTTON = document.querySelector(`[${this.attr.modalButton}][${this.attr.openState}]`)
       // open button
       if (OPEN_BUTTON) {
-         OPEN_BUTTON.removeAttribute(labels.openState)
+         OPEN_BUTTON.removeAttribute(this.attr.openState)
          OPEN_BUTTON.setAttribute("aria-expanded", false)
          OPEN_BUTTON.focus() // reset focus to the modal open button
       }
-      if (OPEN_MODAL) OPEN_MODAL.removeAttribute(labels.openState)
-      if (this.overlay) hideAllOverlay()
+      if (OPEN_MODAL) OPEN_MODAL.removeAttribute(this.attr.openState)
+      if (this.overlay) hideAllOverlay(this.attr.openState)
    }
 
    /**
@@ -71,8 +82,8 @@ export class Modal {
    init () {
       if (this.modalOpenButtons) {
          this.modalOpenButtons.forEach(modalButton => {
-            const TARGET_MODAL = document.getElementById(modalButton.getAttribute(labels.target))
-            const CLOSE_BUTTON = TARGET_MODAL.querySelector(`[${labels.modalClose}]`)
+            const TARGET_MODAL = document.getElementById(modalButton.getAttribute(this.attr.target))
+            const CLOSE_BUTTON = TARGET_MODAL.querySelector(`[${this.attr.modalClose}]`)
 
             modalButton.addEventListener("click", (event) => {
                this._openModal(event.target, TARGET_MODAL)
@@ -82,10 +93,8 @@ export class Modal {
                CLOSE_BUTTON.addEventListener("click", (event) => { this._closeModal() })
             }
          })
-         // Close modal on escape touch
          document.addEventListener("keydown", event => { if (event.key === "Escape") { this._closeModal() } })
       }
-
       if (this.overlay) this.overlay.addEventListener("click", () => { this._closeModal() })
    }
 }

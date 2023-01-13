@@ -18,8 +18,16 @@ export class SingleFilter {
 
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
-         divIds: ["listing"]
+         divIds: ["listing"],
+         attributes: {}
       }
+
+      const DEFAULT_ATTRIBUTES = {
+         loadingState: "data-fn-is-loading"
+      }
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
       this.formId = document.querySelector(elem)
    }
@@ -40,7 +48,7 @@ export class SingleFilter {
             input.addEventListener("click", () => {
                const HREF = input.value
                history.pushState(null, null, HREF)
-               fetchContent(HREF, this.divIds)
+               fetchContent(HREF, this.divIds, this.attr.loadingState)
             })
          })
       }

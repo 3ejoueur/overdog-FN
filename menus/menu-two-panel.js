@@ -6,7 +6,6 @@
 */
 
 import { showContent, hideContent, collapseAll } from "../shared/collapse.js"
-import { labels } from "../labels.js"
 
 export class MenuTwoPanel {
    /**
@@ -24,10 +23,21 @@ export class MenuTwoPanel {
          collapseBreakpoint: "767px",
          currentLinkSelector: "[data-fn-uri=\"current\"]",
          hideCurrentOnMobile: false,
-         closeActiveOnClick: false
+         closeActiveOnClick: false,
+         attributes: {}
       }
 
+      const DEFAULT_ATTRIBUTES = {
+         target: "data-fn-target",
+         openState: "data-fn-is-open",
+         menuItem: "data-fn-menu-item",
+         menuSubmenu: "data-fn-submenu"
+      }
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
+
       this.menuSelector = document.querySelector(elem) // wrapper of your whole menu
       this.mediaQueryDesktop = window.matchMedia(`screen and (max-width: ${this.collapseBreakpoint})`)
       if (this.menuSelector) this.onLoadcurrentMenuLink = this.menuSelector.querySelector(this.currentLinkSelector)
@@ -40,11 +50,11 @@ export class MenuTwoPanel {
    --------------------------------------------------------------------------
    */
    _openParent (current) {
-      const CURRENT_LINK_SUBMENU = current.closest(`[${labels.menuSubmenu}]`)
+      const CURRENT_LINK_SUBMENU = current.closest(`[${this.attr.menuSubmenu}]`)
       if (CURRENT_LINK_SUBMENU) {
-         const PARENT_LABEL = document.querySelector(`[${labels.target}="${CURRENT_LINK_SUBMENU.id}"]`)
-         const PARENT_MENU_ITEM = CURRENT_LINK_SUBMENU.closest(`[${labels.menuItem}]`)
-         showContent(PARENT_MENU_ITEM, PARENT_LABEL, CURRENT_LINK_SUBMENU)
+         const PARENT_LABEL = document.querySelector(`[${this.attr.target}="${CURRENT_LINK_SUBMENU.id}"]`)
+         const PARENT_MENU_ITEM = CURRENT_LINK_SUBMENU.closest(`[${this.attr.menuItem}]`)
+         showContent(PARENT_MENU_ITEM, PARENT_LABEL, CURRENT_LINK_SUBMENU, this.attr.openState)
       }
    }
 
@@ -55,23 +65,23 @@ export class MenuTwoPanel {
    --------------------------------------------------------------------------
    */
    _showHideSubmenu () {
-      const MENU_ITEMS = this.menuSelector.querySelectorAll(`[${labels.menuItem}]`)
+      const MENU_ITEMS = this.menuSelector.querySelectorAll(`[${this.attr.menuItem}]`)
 
       MENU_ITEMS.forEach(menuItem => {
          const HEADING = menuItem.querySelector("button")
 
          if (HEADING) {
             HEADING.addEventListener("click", () => {
-               const RELATED_SUBMENU = document.getElementById(HEADING.getAttribute(labels.target))
+               const RELATED_SUBMENU = document.getElementById(HEADING.getAttribute(this.attr.target))
                // if submenu is already open - close it on click and end function with return
-               if (menuItem.hasAttribute(labels.openState)) {
+               if (menuItem.hasAttribute(this.attr.openState)) {
                   if (this.mediaQueryDesktop.matches || this.closeActiveOnClick === true) {
-                     hideContent(menuItem, HEADING, RELATED_SUBMENU)
+                     hideContent(menuItem, HEADING, RELATED_SUBMENU, this.attr.openState)
                   }
                   return
                }
-               collapseAll(this.menuSelector)
-               showContent(menuItem, HEADING, RELATED_SUBMENU)
+               collapseAll(this.menuSelector, this.attr.target, this.attr.openState)
+               showContent(menuItem, HEADING, RELATED_SUBMENU, this.attr.openState)
             })
          }
       })

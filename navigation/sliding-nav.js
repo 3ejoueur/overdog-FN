@@ -7,7 +7,6 @@
 */
 
 import { showOverlay, hideAllOverlay } from "../shared/overlay"
-import { labels } from "../labels"
 
 export class SlidingNav {
    /**
@@ -24,12 +23,24 @@ export class SlidingNav {
       const DEFAULT_OPTIONS = {
          delayBetweenOpenings: 450,
          backTransition: "transition:transform 0.25s;transition-timing-function:cubic-bezier(0.42, 0, 1, 1);",
-         overlaySelector: null
+         overlaySelector: null,
+         attributes: {}
       }
 
+      const DEFAULT_ATTRIBUTES = {
+         overlayOpenState: "data-fn-is-open",
+         navPanel: "data-fn-nav-panel",
+         navButton: "data-fn-nav-button",
+         navOpen: "data-fn-nav-open",
+         navClose: "data-fn-nav-close"
+      }
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
+
       this.buttonsWrapper = document.querySelector(elem)
-      if (this.buttonsWrapper) this.navButtons = this.buttonsWrapper.querySelectorAll(`[${labels.navButton}]`)
+      if (this.buttonsWrapper) this.navButtons = this.buttonsWrapper.querySelectorAll(`[${this.attr.navButton}]`)
       if (this.overlaySelector) this.overlay = document.querySelector(this.overlaySelector)
    }
 
@@ -39,8 +50,8 @@ export class SlidingNav {
    --------------------------------------------------------------------------
    */
    _openNav (currentButtonValue, relatedNav, currentButton) {
-      if (this.overlay) showOverlay(this.overlay)
-      document.body.setAttribute(labels.navOpen, currentButtonValue)
+      if (this.overlay) showOverlay(this.overlay, this.attr.overlayOpenState)
+      document.body.setAttribute(this.attr.navOpen, currentButtonValue)
       if (!relatedNav.hasAttribute("style")) relatedNav.setAttribute("style", this.backTransition) // set the back transition on click - avoid a FOUT effect
       this._setAllButtonsAriaFalse()
       this._setOpenButtonAriaTrue(currentButton)
@@ -52,8 +63,8 @@ export class SlidingNav {
    --------------------------------------------------------------------------
    */
    _closeAllNavs () {
-      document.body.removeAttribute(labels.navOpen)
-      hideAllOverlay()
+      document.body.removeAttribute(this.attr.navOpen)
+      hideAllOverlay(this.attr.overlayOpenState)
       this._setAllButtonsAriaFalse()
    }
 
@@ -84,19 +95,19 @@ export class SlidingNav {
       if (this.navButtons) {
          this.navButtons.forEach(button => {
             // get the related panel
-            const RELATED_NAV = document.querySelector(`[${labels.navPanel}="${button.getAttribute(labels.navButton)}"]`)
+            const RELATED_NAV = document.querySelector(`[${this.attr.navPanel}="${button.getAttribute(this.attr.navButton)}"]`)
             if (RELATED_NAV) {
-               const CLOSE_BUTTON = RELATED_NAV.querySelector(`[${labels.navClose}]`)
+               const CLOSE_BUTTON = RELATED_NAV.querySelector(`[${this.attr.navClose}]`)
                if (CLOSE_BUTTON) CLOSE_BUTTON.addEventListener("click", () => { this._closeAllNavs() })
                button.addEventListener("click", () => {
                   // get the value of the data attribute
-                  const CURRENT_BUTTON_VALUE = button.getAttribute(labels.navButton)
+                  const CURRENT_BUTTON_VALUE = button.getAttribute(this.attr.navButton)
                   // manage state of all panels and buttons
-                  if (!document.body.hasAttribute(labels.navOpen)) {
+                  if (!document.body.hasAttribute(this.attr.navOpen)) {
                      this._openNav(CURRENT_BUTTON_VALUE, RELATED_NAV, button)
                      return
                   }
-                  if (document.body.getAttribute(labels.navOpen) === CURRENT_BUTTON_VALUE) {
+                  if (document.body.getAttribute(this.attr.navOpen) === CURRENT_BUTTON_VALUE) {
                      this._closeAllNavs()
                   // manage the toggle between 2 different panels - keep the overlay
                   } else {

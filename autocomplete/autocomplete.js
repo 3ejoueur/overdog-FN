@@ -5,8 +5,6 @@
 --------------------------------------------------------------------------
 */
 
-import { labels } from "../labels"
-
 export class Autocomplete {
    /**
    --------------------------------------------------------------------------
@@ -26,20 +24,32 @@ export class Autocomplete {
          endpoints: null,
          fieldsToSearch: ["title", "url", "titleToAscii"],
          fieldToHighlight: "title",
-         highlightClasses: "font-bold text-[#084b83]"
+         highlightClasses: "font-bold text-[#084b83]",
+         attributes: {}
       }
 
+      const DEFAULT_ATTRIBUTES = {
+         autocompleteWrapper: "data-fn-autocomplete-wrapper",
+         autocompleteInput: "data-fn-autocomplete-input",
+         autocompleteSubmit: "data-fn-autocomplete-submit",
+         autocompleteResults: "data-fn-autocomplete-results",
+         autocompleteResultsInner: "data-fn-autocomplete-results-inner",
+         autocompleteTemplate: "data-fn-autocomplete-template"
+      }
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
 
       this.searchForm = document.querySelector(elem)
 
       if (this.searchForm) {
-         this.inputWrapper = this.searchForm.querySelector(`[${labels.autocompleteWrapper}]`)
-         this.inputField = this.searchForm.querySelector(`[${labels.autocompleteInput}]`)
-         this.submitButton = this.searchForm.querySelector(`[${labels.autocompleteSubmit}]`)
-         this.resultsDiv = this.searchForm.querySelector(`[${labels.autocompleteResults}]`)
-         this.resultsDivInner = this.searchForm.querySelector(`[${labels.autocompleteResultsInner}]`)
-         this.suggestionTemplate = this.searchForm.querySelector(`[${labels.autocompleteTemplate}]`)
+         this.inputWrapper = this.searchForm.querySelector(`[${this.attr.autocompleteWrapper}]`)
+         this.inputField = this.searchForm.querySelector(`[${this.attr.autocompleteInput}]`)
+         this.submitButton = this.searchForm.querySelector(`[${this.attr.autocompleteSubmit}]`)
+         this.resultsDiv = this.searchForm.querySelector(`[${this.attr.autocompleteResults}]`)
+         this.resultsDivInner = this.searchForm.querySelector(`[${this.attr.autocompleteResultsInner}]`)
+         this.suggestionTemplate = this.searchForm.querySelector(`[${this.attr.autocompleteTemplate}]`)
          this.jsonUrl = window.location.origin + this.endpoints.find(element => element.langCode === document.documentElement.lang).slug
       }
    }
@@ -202,23 +212,23 @@ export class Autocomplete {
       if (this.searchForm) {
          // console message management
          if (!this.inputField) {
-            console.warn(`Overdog Autocomplete - A input with the ${labels.autocompleteInput} attribute is missing in your template`)
+            console.warn(`Overdog Autocomplete - A input with the ${this.attr.autocompleteInput} attribute is missing in your template`)
             return
          }
          if (!this.resultsDiv) {
-            console.warn(`Overdog Autocomplete - A div with the ${labels.autocompleteResults} attribute is missing in your template`)
+            console.warn(`Overdog Autocomplete - A div with the ${this.attr.autocompleteResults} attribute is missing in your template`)
             return
          }
          if (!this.submitButton) {
-            console.warn(`Overdog Autocomplete - A button with the ${labels.autocompleteSubmit} attribute is missing in your template`)
+            console.warn(`Overdog Autocomplete - A button with the ${this.attr.autocompleteSubmit} attribute is missing in your template`)
             return
          }
          if (!this.resultsDivInner) {
-            console.warn(`Overdog Autocomplete - A div with the ${labels.autocompleteResultsInner} attribute is missing in your template`)
+            console.warn(`Overdog Autocomplete - A div with the ${this.attr.autocompleteResultsInner} attribute is missing in your template`)
             return
          }
          if (!this.suggestionTemplate) {
-            console.warn(`Overdog Autocomplete - A template tag with the ${labels.autocompleteTemplate} attribute is missing in your template or is not within your instance div.`)
+            console.warn(`Overdog Autocomplete - A template tag with the ${this.attr.autocompleteTemplate} attribute is missing in your template or is not within your instance div.`)
             return
          }
          // events listeners

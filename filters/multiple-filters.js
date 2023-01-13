@@ -6,7 +6,6 @@
 */
 
 import { fetchContent } from "./fetch-content"
-import { labels } from "../labels.js"
 
 export class MultipleFilters {
    /**
@@ -26,8 +25,22 @@ export class MultipleFilters {
          fetchOnlyOnSubmit: false,
          clearAllButtonId: null,
          paramToRemove: null,
-         regexToRemove: /\/p[0-9]+/
+         regexToRemove: /\/p[0-9]+/,
+         attributes: {}
       }
+
+      const DEFAULT_ATTRIBUTES = {
+         loadingState: "data-fn-is-loading",
+         filterGroup: "data-fn-filter-group",
+         tagId: "data-fn-tag-id",
+         tagTemplate: "data-fn-tag-template",
+         tagRow: "data-fn-tag-row",
+         tagContent: "data-fn-tag-content",
+         tagTitle: "data-fn-tag-title"
+      }
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
 
       this.filtersWrapper = document.querySelector(elem)
@@ -43,11 +56,11 @@ export class MultipleFilters {
    --------------------------------------------------------------------------
    */
    _getGroupsData () {
-      const GROUP_LIST = this.filtersWrapper.querySelectorAll(`[${labels.filterGroup}]`)
+      const GROUP_LIST = this.filtersWrapper.querySelectorAll(`[${this.attr.filterGroup}]`)
       const GROUPS_LIST_DATA = []
       GROUP_LIST.forEach(group => {
          const GROUP_DATA = {}
-         GROUP_DATA.urlName = group.getAttribute(labels.filterGroup)
+         GROUP_DATA.urlName = group.getAttribute(this.attr.filterGroup)
          GROUP_DATA.inputs = group.querySelectorAll("input")
          GROUPS_LIST_DATA.push(GROUP_DATA)
       })
@@ -102,7 +115,7 @@ export class MultipleFilters {
          href = this._createUrl()
          history.pushState(null, null, href)
       }
-      if (fetchContentAfterEvent) fetchContent(href, this.divIds)
+      if (fetchContentAfterEvent) fetchContent(href, this.divIds, this.attr.loadingState)
    }
 
    /**

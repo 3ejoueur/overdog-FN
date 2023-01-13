@@ -5,8 +5,6 @@
 --------------------------------------------------------------------------
 */
 
-import { labels } from "../labels.js"
-
 export class Navbar {
    /**
    --------------------------------------------------------------------------
@@ -19,11 +17,18 @@ export class Navbar {
    constructor (elem, options) {
       const DEFAULT_OPTIONS = {
          scrollTopDistance: 80,
-         behavior: "sticky"
+         behavior: "sticky",
+         attributes: {}
       }
 
-      this.navBar = document.querySelector(elem)
+      const DEFAULT_ATTRIBUTES = {
+         openState: "data-fn-is-open"
+      }
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+      // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
+      this.navBar = document.querySelector(elem)
       // usefull for hidden navbar
       this.lastScrollpos = 0
    }
@@ -37,9 +42,9 @@ export class Navbar {
    // old iOS used document.body.scrollTop but not modern browsers - get the bigger number
       const SCROLL_TOP_DISTANCE = Math.max(document.documentElement.scrollTop, document.body.scrollTop)
       if (SCROLL_TOP_DISTANCE > this.scrollTopDistance) {
-         this.navBar.setAttribute(labels.openState, "")
+         this.navBar.setAttribute(this.attr.openState, "")
       } else {
-         this.navBar.removeAttribute(labels.openState)
+         this.navBar.removeAttribute(this.attr.openState)
       }
    }
 
@@ -54,9 +59,9 @@ export class Navbar {
       const SCROLL_TOP_DISTANCE = Math.max(document.documentElement.scrollTop, document.body.scrollTop)
       if (SCROLL_TOP_DISTANCE > this.scrollTopDistance) { // avoid elastic iphone hide (you can adjust the pixel)
          if (this.lastScrollpos > CURRENT_SCROLL_POSITION) {
-            this.navBar.removeAttribute(labels.openState)
+            this.navBar.removeAttribute(this.attr.openState)
          } else if (CURRENT_SCROLL_POSITION > this.lastScrollpos) {
-            this.navBar.setAttribute(labels.openState, "")
+            this.navBar.setAttribute(this.attr.openState, "")
          }
       }
       this.lastScrollpos = window.pageYOffset

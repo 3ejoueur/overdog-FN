@@ -5,7 +5,6 @@
 --------------------------------------------------------------------------
 */
 
-import { labels } from "../labels.js"
 export { showOverlay, hideAllOverlay }
 
 /**
@@ -13,10 +12,10 @@ export { showOverlay, hideAllOverlay }
    @method _showOverlay
    --------------------------------------------------------------------------
    */
-function showOverlay (overlay) {
+function showOverlay (overlay, openAttribute = "data-fn-is-open") {
    if (overlay) {
       overlay.style.display = "block"
-      setTimeout(() => { overlay.setAttribute(labels.openState, "") }, 20)
+      setTimeout(() => { overlay.setAttribute(openAttribute, "") }, 20)
    }
 }
 
@@ -25,13 +24,13 @@ function showOverlay (overlay) {
    @method _hideAllOverlay
 --------------------------------------------------------------------------
 */
-function hideAllOverlay () {
-   const OVERLAYS = document.querySelectorAll(`[${labels.overlay}]`)
+function hideAllOverlay (openAttribute = "data-fn-is-open") {
+   const OVERLAYS = document.querySelectorAll("[data-fn-overlay]")
    if (OVERLAYS) {
       OVERLAYS.forEach(overlay => {
-         overlay.removeAttribute(labels.openState)
+         overlay.removeAttribute(openAttribute)
          overlay.addEventListener("transitionend", () => {
-            if (!overlay.hasAttribute(labels.openState)) overlay.style.display = "none"
+            if (!overlay.hasAttribute(openAttribute)) overlay.style.display = "none"
          })
       })
    }
