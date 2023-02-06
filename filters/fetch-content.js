@@ -5,7 +5,7 @@
 --------------------------------------------------------------------------
 */
 
-import { renameDataSet } from "../lazyload/lazyload"
+import { renameDataSet } from "../lazyload/images"
 
 export async function fetchContent (href, divIds, loadingAttribute = "data-fn-is-loading") {
    document.body.setAttribute(loadingAttribute, "")

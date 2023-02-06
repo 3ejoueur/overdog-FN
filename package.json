@@ -1,6 +1,6 @@
 {
    "name": "@overdog/fn",
-   "version": "1.0.0-beta.11",
+   "version": "1.0.0-beta.13",
    "description": "Overdog FN is a library of Javascript functions and helpers for Craft CMS",
    "main": "index.js",
    "scripts": {
