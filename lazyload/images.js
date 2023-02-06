@@ -20,7 +20,7 @@ export function renameDataSet (element) {
    }
 }
 
-export function lazyload () {
+export function lazyloadImages () {
    const LAZY_IMAGES = document.querySelectorAll("[loading=\"lazy\"]")
 
    // if IntersectionObserver IS support but NOT native lazy loading

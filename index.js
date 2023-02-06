@@ -13,7 +13,9 @@ export { SingleFilter } from "./filters/single-filter.js"
 export { Autocomplete } from "./autocomplete/autocomplete.js"
 
 // lazyload
-export { lazyload as fnLazyload } from "./lazyload/lazyload.js"
+export { lazyloadImages as fnLazyload } from "./lazyload/images.js" // legacy
+export { lazyloadImages as fnLazyloadImages } from "./lazyload/images.js"
+export { lazyloadIframes as fnLazyloadIframes } from "./lazyload/iframes.js"
 
 // Pagination
 export { LoadMore } from "./pagination/load-more.js"
