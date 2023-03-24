@@ -104,9 +104,10 @@ export class MultipleFilters {
       case "click": {
          const CHECKED_INPUTS = this.filtersWrapper.querySelectorAll("input:checked")
          const TEXT_INPUTS = this.filtersWrapper.querySelectorAll("input[type=\"text\"], input[type=\"search\"]")
-
          CHECKED_INPUTS.forEach(input => { input.checked = false })
          TEXT_INPUTS.forEach(input => { input.value = "" })
+         // reset tags if there is any in the filter wrapper
+         this._resetTags()
          break
       }
       }
@@ -158,6 +159,22 @@ export class MultipleFilters {
       const URL = (window.location.href.replace(this.regexToRemove, "").split("?")[0] + "?" + PARAMS.toString())
 
       return URL
+   }
+
+   /**
+   --------------------------------------------------------------------------
+   @method resetTags
+   @desc - Reset methods used by clear all button
+   --------------------------------------------------------------------------
+   */
+   _resetTags () {
+      const ALL_TAGS_LIST = this.filtersWrapper.querySelectorAll(`[${this.attr.tagId}]`)
+      if (ALL_TAGS_LIST) {
+         ALL_TAGS_LIST.forEach(tag => {
+            tag.removeEventListener("click", this._removeTag, true) // removeEventListener first to avoid keeping in memory
+            tag.remove()
+         })
+      }
    }
 
    /**

@@ -12,7 +12,7 @@ export class MultipleFiltersWithTags extends MultipleFilters {
    constructor (elem, options) {
       super(elem, options)
       if (this.filtersWrapper) {
-         this.allTags = this.filtersWrapper.querySelectorAll(`[${this.attr.tagId}]`)
+         this.tagsShownOnPageLoad = this.filtersWrapper.querySelectorAll(`[${this.attr.tagId}]`)
          this.tagTemplate = document.querySelector(`[${this.attr.tagTemplate}]`) // the template to use for tags
       }
    }
@@ -64,20 +64,6 @@ export class MultipleFiltersWithTags extends MultipleFilters {
 
    /**
    --------------------------------------------------------------------------
-   @method _resetTags
-   @desc - Reset methods used by clear all button
-   --------------------------------------------------------------------------
-   */
-   _resetTags () {
-      const ALL_TAGS_LIST = document.querySelectorAll(`[${this.attr.tagId}]`)
-      ALL_TAGS_LIST.forEach(tag => {
-         tag.removeEventListener("click", this._removeTag, true) // removeEventListener first to avoid keeping in memory
-         tag.remove()
-      })
-   }
-
-   /**
-   --------------------------------------------------------------------------
    @method init
    --------------------------------------------------------------------------
    */
@@ -88,7 +74,7 @@ export class MultipleFiltersWithTags extends MultipleFilters {
             if (event.target.hasAttribute(this.attr.tagRow)) this._createTag(event.target)
          })
          // add click EventListener on all tags if exists on page load
-         if (this.allTags) this.allTags.forEach(tag => { tag.addEventListener("click", this._removeTag.bind(this)) })
+         if (this.tagsShownOnPageLoad) this.tagsShownOnPageLoad.forEach(tag => { tag.addEventListener("click", this._removeTag.bind(this)) })
       }
    }
 }
