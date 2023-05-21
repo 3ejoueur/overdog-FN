@@ -23,11 +23,10 @@ export class Dropdown {
          openState: "data-fn-is-open",
          dropdownText: "data-fn-dropdown-text"
       }
-
-      // Merge in a new object the default attributes names and the custom ones
-      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
       // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, this.attributes)
       this.dropdowns = document.querySelectorAll(elem)
    }
 

@@ -25,10 +25,10 @@ export class LoadMore {
          loadingState: "data-fn-is-loading"
       }
 
-      // Merge in a new object the default attributes names and the custom ones
-      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
       // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, this.attributes)
       this.pagesWrapper = document.querySelector(elem)
       this.buttonNode = document.getElementById(this.loadMoreButtonId)
    }

@@ -36,10 +36,11 @@ export class Autocomplete {
          autocompleteResultsInner: "data-fn-autocomplete-results-inner",
          autocompleteTemplate: "data-fn-autocomplete-template"
       }
-      // Merge in a new object the default attributes names and the custom ones
-      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
+
       // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, this.attributes)
 
       this.searchForm = document.querySelector(elem)
 
@@ -212,7 +213,7 @@ export class Autocomplete {
       if (this.searchForm) {
          // console message management
          if (!this.inputField) {
-            console.warn(`Overdog Autocomplete - A input with the ${this.attr.autocompleteInput} attribute is missing in your template`)
+            console.warn(`Overdog Autocomplete - An input with the ${this.attr.autocompleteInput} attribute is missing in your template`)
             return
          }
          if (!this.resultsDiv) {

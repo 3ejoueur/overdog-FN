@@ -27,10 +27,10 @@ export class Tabs {
          tabsClose: "data-fn-tabs-content",
          target: "data-fn-target"
       }
-      // Merge in a new object the default attributes names and the custom ones
-      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
       // Assign default options to this.options
       Object.assign(this, defaultOptions, options)
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, this.attributes)
       this.tabsGroups = document.querySelectorAll(elem)
    }
 

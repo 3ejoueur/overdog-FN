@@ -33,10 +33,10 @@ export class MenuTwoPanel {
          menuItem: "data-fn-menu-item",
          menuSubmenu: "data-fn-submenu"
       }
-      // Merge in a new object the default attributes names and the custom ones
-      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, options.attributes)
       // Assign default options to this.options
       Object.assign(this, DEFAULT_OPTIONS, options)
+      // Merge in a new object the default attributes names and the custom ones
+      this.attr = Object.assign({}, DEFAULT_ATTRIBUTES, this.attributes)
 
       this.menuSelector = document.querySelector(elem) // wrapper of your whole menu
       this.mediaQueryDesktop = window.matchMedia(`screen and (max-width: ${this.collapseBreakpoint})`)

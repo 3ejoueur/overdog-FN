@@ -11,7 +11,7 @@
 */
 
 export function lazyloadIframes () {
-   const LAZY_IFRAMES = document.querySelectorAll("[ data-lazy-iframe=\"wrapper\"]")
+   const LAZY_IFRAMES = document.querySelectorAll("[data-lazy-iframe=\"wrapper\"]")
 
    if (LAZY_IFRAMES) {
       const imageObserver = new IntersectionObserver(entries => {
