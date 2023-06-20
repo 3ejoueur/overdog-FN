@@ -80,7 +80,6 @@ export class Dropdown {
             this._toggleDropdown(dropdown)
             // close the filter dropdown when clicking an input if it is a fake select (radio)
             const HEADING_TEXT = dropdown.querySelector(`[${this.attr.dropdownText}]`)
-            console.log(this.attr.dropdownText)
             if (HEADING_TEXT) {
                dropdown.addEventListener("change", this._closeOnSelect.bind(this, dropdown, HEADING_TEXT))
                window.addEventListener("load", this._replaceHeadingWithSelectedLabel.bind(this, dropdown, HEADING_TEXT))
