@@ -27,6 +27,7 @@ export class Accordions {
       const DEFAULT_ATTRIBUTES = {
          openState: "data-fn-is-open",
          accordions: "data-fn-accordion",
+         trigger: "button",
          target: "data-fn-target"
       }
       // Assign default options to this.options
@@ -59,7 +60,8 @@ export class Accordions {
          // close the accordions on click outside - feature only for this project
          if (this.closeClickingOutside === true) this._closeAccordionsOnClickOutside(item)
          ACCORDIONS_ITEM.forEach(accordion => {
-            const HEADING = accordion.querySelector("button")
+            // const HEADING = accordion.querySelector("button")
+            const HEADING = accordion.querySelector(`${this.attr.trigger}`)
             if (HEADING) {
                HEADING.addEventListener("click", () => {
                   const TARGET_CONTENT = document.getElementById(HEADING.getAttribute(this.attr.target))

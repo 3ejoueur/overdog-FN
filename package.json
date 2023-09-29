@@ -1,6 +1,6 @@
 {
    "name": "@overdog/fn",
-   "version": "1.1.0",
+   "version": "1.1.1",
    "description": "Discover a comprehensive component library for Craft CMS, offering a wide range of powerful features such as search autocomplete, filters, navbar, menus, accordions, and much more.",
    "main": "index.js",
    "scripts": {
